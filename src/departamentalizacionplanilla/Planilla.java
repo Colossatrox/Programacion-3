@@ -7,10 +7,11 @@ package departamentalizacionplanilla;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-//Bryan Orlando Aguirre Sagastume
-//0901-17-646
+
 /**
- *
+ *Bryan Orlando Aguirre Sagastume
+*0901-17-646
+*Planilla para calcular el sueldo líquido de trabajadores y obtener los totales devengados por departamento 
  * @author Bryan
  */
 public class Planilla extends javax.swing.JFrame {
@@ -23,6 +24,7 @@ int intRandom;
     public Planilla() {
         funGenerarPlanilla();
         initComponents();
+        //instrucción para mostrar la matriz en la tabla del frame
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             
              strPlanilla,
@@ -46,7 +48,6 @@ int intRandom;
         for (int i = 0; i < 10; i++) {
             strPlanilla[i][0]=JOptionPane.showInputDialog("Ingrese el nombre completo de la persona No. "+(i+1));
             intRandom=(int)(Math.random()*7500)+2500;
-            System.out.println(intRandom);
             strPlanilla[i][1]=String.valueOf(intRandom);
             intRandom=(int)(Math.random()*3500)+1500;
             System.out.println(intRandom);
