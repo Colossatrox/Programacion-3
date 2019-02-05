@@ -41,6 +41,7 @@ int intRandom;
         jTable2.setModel(dtmTabla);
         
     }
+    
     public void funGenerarPlanilla(){
         for (int i = 0; i < 5; i++) {
             strDep[i]="0";
@@ -63,15 +64,15 @@ int intRandom;
         }
         for (int i = 0; i < 10; i++) {
             if (Integer.parseInt(strPlanilla[i][5])==1) {
-                strDep[1]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[0]));
+                strDep[0]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[0]));
             }else if (Integer.parseInt(strPlanilla[i][5])==2) {
-                strDep[2]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[1]));
+                strDep[1]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[1]));
             }else if (Integer.parseInt(strPlanilla[i][5])==3) {
-                strDep[3]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[2]));
+                strDep[2]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[2]));
             }else if (Integer.parseInt(strPlanilla[i][5])==4) {
-                strDep[4]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[3]));
+                strDep[3]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[3]));
             }else{
-                strDep[5]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[4]));
+                strDep[4]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[4]));
             }
         }
     }
@@ -158,6 +159,20 @@ int intRandom;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         funGenerarPlanilla();
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            
+             strPlanilla,
+            new String [] {
+                "Nombre", "Sueldo Base", "Total Deducciones", "Total Percepciones", "Sueldo Liquido", "Departamento"
+            }
+        ));
+        
+        DefaultTableModel dtmTabla= new DefaultTableModel(new String[] {"Total por departamento"},0);
+        for (int i = 0; i < 5; i++) {
+            Object[] obTotal={strDep[i]};
+            dtmTabla.addRow(obTotal);
+        }
+        jTable2.setModel(dtmTabla);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
