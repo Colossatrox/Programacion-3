@@ -59,7 +59,7 @@ int intRandom;
             strPlanilla[i][4]=String.valueOf(dfformato.format(Integer.parseInt(strPlanilla[i][1])*.0483));
             strPlanilla[i][5]=String.valueOf((int)(Math.random()*2000)+1000);
             Double dtot1;
-            dtot1=Integer.parseInt(strPlanilla[i][1])+Integer.parseInt(strPlanilla[i][2])+Integer.parseInt(strPlanilla[i][3])-Double.parseDouble(strPlanilla[i][4])-Integer.parseInt(strPlanilla[i][5]);
+            dtot1=Double.parseDouble(strPlanilla[i][1]);
             if (dtot1<=5000) {
                 strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.03));
             }else if (dtot1<=10000) {
@@ -142,7 +142,7 @@ int intRandom;
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, 190, 80));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 180, 190, 80));
 
         jTable3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -159,7 +159,7 @@ int intRandom;
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, 141, 110));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 30, 141, 110));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
