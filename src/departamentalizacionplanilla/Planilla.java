@@ -5,6 +5,7 @@
  */
 package departamentalizacionplanilla;
 
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,8 +16,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Bryan
  */
 public class Planilla extends javax.swing.JFrame {
-String strDep[]=new String [6];
-String strPlanilla[][]=new String [11][7];
+String strDep[]=new String [9];
+String strPlanilla[][]=new String [11][9];
+DecimalFormat dfformato = new DecimalFormat("####.##");
 int intRandom;
     /**
      * Creates new form Planilla
@@ -29,7 +31,7 @@ int intRandom;
             
              strPlanilla,
             new String [] {
-                "Nombre", "Sueldo Base", "Total Deducciones", "Total Percepciones", "Sueldo Liquido", "Departamento"
+                "Nombre", "Sueldo Base", "Bonificación", "Comisión", "IGSS", "Descuento Judicial", "ISR", "Sueldo Liquido", "Departamento"
             }
         ));
         
@@ -38,7 +40,7 @@ int intRandom;
             Object[] obTotal={strDep[i]};
             dtmTabla.addRow(obTotal);
         }
-        jTable2.setModel(dtmTabla);
+        jTable3.setModel(dtmTabla);
         
     }
     
@@ -50,29 +52,36 @@ int intRandom;
             strPlanilla[i][0]=JOptionPane.showInputDialog("Ingrese el nombre completo de la persona No. "+(i+1));
             intRandom=(int)(Math.random()*7500)+2500;
             strPlanilla[i][1]=String.valueOf(intRandom);
-            intRandom=(int)(Math.random()*3500)+1500;
-            System.out.println(intRandom);
+            intRandom=(int)(Math.random()*2250)+250;
             strPlanilla[i][2]=String.valueOf(intRandom);
-            intRandom=(int)(Math.random()*1500)+1000;
-            System.out.println(intRandom);
+            intRandom=(int)(Math.random()*3500)+500;
             strPlanilla[i][3]=String.valueOf(intRandom);
-            strPlanilla[i][4]=String.valueOf(Integer.parseInt(strPlanilla[i][1])+Integer.parseInt(strPlanilla[i][3])-Integer.parseInt(strPlanilla[i][2]));
-            System.out.println(strPlanilla[i][5]);
+            strPlanilla[i][4]=String.valueOf(dfformato.format(Integer.parseInt(strPlanilla[i][1])*.0483));
+            strPlanilla[i][5]=String.valueOf((int)(Math.random()*2000)+1000);
+            Double dtot1;
+            dtot1=Integer.parseInt(strPlanilla[i][1])+Integer.parseInt(strPlanilla[i][2])+Integer.parseInt(strPlanilla[i][3])-Double.parseDouble(strPlanilla[i][4])-Integer.parseInt(strPlanilla[i][5]);
+            if (dtot1<=5000) {
+                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.03));
+            }else if (dtot1<=10000) {
+                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.05));
+            }else{
+                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.1));
+            }
+            strPlanilla[i][7]=String.valueOf(dfformato.format(dtot1-Double.parseDouble(strPlanilla[i][6])));
             intRandom=(int)(Math.random()*5)+1;
-            strPlanilla[i][5]=String.valueOf(intRandom);
-            System.out.println(intRandom);
+            strPlanilla[i][8]=String.valueOf(intRandom);
         }
         for (int i = 0; i < 10; i++) {
-            if (Integer.parseInt(strPlanilla[i][5])==1) {
-                strDep[0]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[0]));
-            }else if (Integer.parseInt(strPlanilla[i][5])==2) {
-                strDep[1]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[1]));
-            }else if (Integer.parseInt(strPlanilla[i][5])==3) {
-                strDep[2]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[2]));
-            }else if (Integer.parseInt(strPlanilla[i][5])==4) {
-                strDep[3]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[3]));
+            if (Integer.parseInt(strPlanilla[i][8])==1) {
+                strDep[0]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[0])));
+            }else if (Integer.parseInt(strPlanilla[i][8])==2) {
+                strDep[1]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[1])));
+            }else if (Integer.parseInt(strPlanilla[i][8])==3) {
+                strDep[2]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[2])));
+            }else if (Integer.parseInt(strPlanilla[i][8])==4) {
+                strDep[3]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[3])));
             }else{
-                strDep[4]=String.valueOf(Integer.parseInt(strPlanilla[i][4])+Integer.parseInt(strDep[4]));
+                strDep[4]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[4])));
             }
         }
     }
@@ -90,21 +99,26 @@ int intRandom;
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Sueldo Base", "Total Deducciones", "Total Percepciones", "Sueldo Liquido", "Departamento"
+                "Nombre", "Sueldo Base", "Bonificación", "Comisión", "IGSS", "Descuento Judicial", "ISR", "Sueldo Liquido", "Departamento"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 660, 242));
 
         jButton1.setText("Realizar de nuevo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -112,9 +126,25 @@ int intRandom;
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {"2600-5000", "3"},
+                {"5001-10000", "5"},
+                {"10001-100000", "10"}
+            },
+            new String [] {
+                "Intervalo de sueldo", "% ISR"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, 190, 80));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
                 {null},
                 {null},
                 {null},
@@ -124,35 +154,9 @@ int intRandom;
                 "Total Departamento"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane3.setViewportView(jTable3);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(218, 218, 218)
-                        .addComponent(jButton1)))
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(71, 71, 71)
-                .addComponent(jButton1)
-                .addContainerGap(172, Short.MAX_VALUE))
-        );
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, 141, 110));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -163,7 +167,7 @@ int intRandom;
             
              strPlanilla,
             new String [] {
-                "Nombre", "Sueldo Base", "Total Deducciones", "Total Percepciones", "Sueldo Liquido", "Departamento"
+                "Nombre", "Sueldo Base", "Bonificación", "Comisión", "IGSS", "Descuento Judicial", "ISR", "Sueldo Liquido", "Departamento"
             }
         ));
         
@@ -172,7 +176,7 @@ int intRandom;
             Object[] obTotal={strDep[i]};
             dtmTabla.addRow(obTotal);
         }
-        jTable2.setModel(dtmTabla);
+        jTable3.setModel(dtmTabla);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -214,7 +218,9 @@ int intRandom;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }
