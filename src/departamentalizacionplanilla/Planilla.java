@@ -17,16 +17,99 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Planilla extends javax.swing.JFrame {
 String strDep[]=new String [9];
-String strPlanilla[][]=new String [11][9];
+String strPlanilla[][]=new String [11][12];
 DecimalFormat dfformato = new DecimalFormat("####.##");
 int intRandom;
     /**
      * Creates new form Planilla
      */
     public Planilla() {
-        funGenerarPlanilla();
+        for (int i = 0; i < 5; i++) {
+            strDep[i]="0";
+        }
+        funRegistroEmpleado();
+        funOpAfectan();
+        funCalcPercepciones();
+        funISR();
+        funCalcDeducciones();
+        funTotalLiquido();
+        funTotDepartamento();
         initComponents();
-        //instrucción para mostrar la matriz en la tabla del frame
+        funMostrarTabla();
+        
+    }
+    public void funRegistroEmpleado(){
+        for (int i = 0; i < 10; i++) {
+            strPlanilla[i][0]=JOptionPane.showInputDialog("Ingrese el nombre completo de la persona No. "+(i+1));
+            strPlanilla[i][1]=String.valueOf((int)(Math.random()*7500)+2500);
+            strPlanilla[i][2]=String.valueOf((int)(Math.random()*2250)+250);
+            strPlanilla[i][3]=String.valueOf((int)(Math.random()*3500)+500);
+            strPlanilla[i][5]=String.valueOf((int)(Math.random()*2000)+1000);
+            strPlanilla[i][8]=String.valueOf((int)(Math.random()*5)+1);
+        }
+    }
+    public void funOpAfectan(){
+        for (int i = 0; i < 10; i++) {
+            int intafecta=0,interror;
+            do {
+                interror=0;
+                intafecta=Integer.parseInt(JOptionPane.showInputDialog("La persona "+strPlanilla[i][0]+" paga IGSS\n 1)SI\n 2)NO"));
+                switch(intafecta){
+                    case 1: strPlanilla[i][4]=String.valueOf(dfformato.format(Integer.parseInt(strPlanilla[i][1])*.0483));
+                        break;
+                    case 2: strPlanilla[i][4]="0";
+                        break;
+                    default: JOptionPane.showMessageDialog(null, "Debe de seleccionar una opcion valida"); interror=1;
+                }
+            } while (interror==1);
+        }
+    }
+    public void funCalcPercepciones(){
+        for (int i = 0; i < 10; i++) {
+            strPlanilla[i][10]=String.valueOf(Integer.parseInt(strPlanilla[i][1])+Integer.parseInt(strPlanilla[i][2])+Integer.parseInt(strPlanilla[i][3]));
+        }
+    }
+    public void funCalcDeducciones(){
+        for (int i = 0; i < 10; i++) {
+            strPlanilla[i][11]=String.valueOf(Double.parseDouble(strPlanilla[i][4])+Double.parseDouble(strPlanilla[i][5])+Double.parseDouble(strPlanilla[i][6]));
+        }
+    }
+    public void funISR(){
+        for (int i = 0; i < 10; i++) {
+            Double dtot1;
+            dtot1=Double.parseDouble(strPlanilla[i][1]);
+            if (dtot1<2600) {
+                strPlanilla[i][6]="0";
+            }else if (dtot1<=5000) {
+                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.03));
+            }else if (dtot1<=10000) {
+                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.05));
+            }else{
+                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.1));
+            }
+        }
+    }
+    public void funTotalLiquido(){
+        for (int i = 0; i < 10; i++) {
+           strPlanilla[i][7]=String.valueOf(Integer.parseInt(strPlanilla[i][10])+Double.parseDouble(strPlanilla[i][11]));
+        }
+    }
+    public void funTotDepartamento(){
+        for (int i = 0; i < 10; i++) {
+            if (Integer.parseInt(strPlanilla[i][8])==1) {
+                strDep[0]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[0])));
+            }else if (Integer.parseInt(strPlanilla[i][8])==2) {
+                strDep[1]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[1])));
+            }else if (Integer.parseInt(strPlanilla[i][8])==3) {
+                strDep[2]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[2])));
+            }else if (Integer.parseInt(strPlanilla[i][8])==4) {
+                strDep[3]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[3])));
+            }else{
+                strDep[4]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[4])));
+            }
+        }
+    }
+    public void funMostrarTabla(){
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             
              strPlanilla,
@@ -41,49 +124,6 @@ int intRandom;
             dtmTabla.addRow(obTotal);
         }
         jTable3.setModel(dtmTabla);
-        
-    }
-    
-    public void funGenerarPlanilla(){
-        for (int i = 0; i < 5; i++) {
-            strDep[i]="0";
-        }
-        for (int i = 0; i < 10; i++) {
-            strPlanilla[i][0]=JOptionPane.showInputDialog("Ingrese el nombre completo de la persona No. "+(i+1));
-            intRandom=(int)(Math.random()*7500)+2500;
-            strPlanilla[i][1]=String.valueOf(intRandom);
-            intRandom=(int)(Math.random()*2250)+250;
-            strPlanilla[i][2]=String.valueOf(intRandom);
-            intRandom=(int)(Math.random()*3500)+500;
-            strPlanilla[i][3]=String.valueOf(intRandom);
-            strPlanilla[i][4]=String.valueOf(dfformato.format(Integer.parseInt(strPlanilla[i][1])*.0483));
-            strPlanilla[i][5]=String.valueOf((int)(Math.random()*2000)+1000);
-            Double dtot1;
-            dtot1=Double.parseDouble(strPlanilla[i][1]);
-            if (dtot1<=5000) {
-                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.03));
-            }else if (dtot1<=10000) {
-                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.05));
-            }else{
-                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.1));
-            }
-            strPlanilla[i][7]=String.valueOf(dfformato.format(dtot1-Double.parseDouble(strPlanilla[i][6])));
-            intRandom=(int)(Math.random()*5)+1;
-            strPlanilla[i][8]=String.valueOf(intRandom);
-        }
-        for (int i = 0; i < 10; i++) {
-            if (Integer.parseInt(strPlanilla[i][8])==1) {
-                strDep[0]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[0])));
-            }else if (Integer.parseInt(strPlanilla[i][8])==2) {
-                strDep[1]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[1])));
-            }else if (Integer.parseInt(strPlanilla[i][8])==3) {
-                strDep[2]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[2])));
-            }else if (Integer.parseInt(strPlanilla[i][8])==4) {
-                strDep[3]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[3])));
-            }else{
-                strDep[4]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[4])));
-            }
-        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -119,7 +159,7 @@ int intRandom;
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 660, 242));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 770, 242));
 
         jButton1.setText("Realizar de nuevo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +182,7 @@ int intRandom;
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 180, 190, 80));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 180, 190, 80));
 
         jTable3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -159,27 +199,21 @@ int intRandom;
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 30, 141, 110));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 30, 141, 110));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        funGenerarPlanilla();
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            
-             strPlanilla,
-            new String [] {
-                "Nombre", "Sueldo Base", "Bonificación", "Comisión", "IGSS", "Descuento Judicial", "ISR", "Sueldo Liquido", "Departamento"
-            }
-        ));
-        
-        DefaultTableModel dtmTabla= new DefaultTableModel(new String[] {"Total por departamento"},0);
-        for (int i = 0; i < 5; i++) {
-            Object[] obTotal={strDep[i]};
-            dtmTabla.addRow(obTotal);
-        }
-        jTable3.setModel(dtmTabla);
+        funRegistroEmpleado();
+        funOpAfectan();
+        funCalcPercepciones();
+        funISR();
+        funCalcDeducciones();
+        funTotalLiquido();
+        funTotDepartamento();
+        initComponents();
+        funMostrarTabla();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
