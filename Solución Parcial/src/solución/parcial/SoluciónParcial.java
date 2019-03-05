@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
  *
  * @author Bryan Orlando Aguirre Sagastume
  * 0901-17-646
+ * Variante A 
  */
 //El programa sirve para manejar el stock de una tienda de comestibles.
 public class SoluciónParcial {
