@@ -35,8 +35,11 @@ public class Login extends javax.swing.JFrame {
         txtContra = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("LOGIN"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(400, 400));
+        setSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 100, -1));
+        getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 100, -1));
         txtNombre.getAccessibleContext().setAccessibleName("txtNombre");
 
         jButton1.setText("Ingresar");
@@ -45,14 +48,14 @@ public class Login extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, -1, -1));
 
         jLabel1.setText("Usuario");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, -1, -1));
 
         jLabel2.setText("Contraseña");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
-        getContentPane().add(txtContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 100, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+        getContentPane().add(txtContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 100, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -61,8 +64,8 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Codigo que permite consultar registros en la base de datos
         try{
-            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/bd_nomina", "root", "");
-            PreparedStatement pst = cn.prepareStatement("select * from usuarios where NombreUsuario = ? and ContraUsuario = ?");
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+            PreparedStatement pst = cn.prepareStatement("select * from usuarios where nombre_usuario = ? and clave_usuario = ?");
             pst.setString(1, txtNombre.getText().trim());
             pst.setString(2, txtContra.getText().trim());
             
