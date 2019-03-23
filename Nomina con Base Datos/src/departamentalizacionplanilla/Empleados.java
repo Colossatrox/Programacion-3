@@ -141,17 +141,25 @@ public class Empleados extends javax.swing.JFrame {
         cmbcoddepto = new javax.swing.JComboBox<>();
         cmbdepto = new javax.swing.JComboBox<>();
         cmbcodpuesto = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("EMPLEADOS");
+        setPreferredSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblestado.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblestado.setText("Puesto");
-        getContentPane().add(lblestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
-        getContentPane().add(txtnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 84, -1));
+        getContentPane().add(lblestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
 
+        txtnombre.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 200, -1));
+
+        lblusuario.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblusuario.setText("Nombre");
-        getContentPane().add(lblusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+        getContentPane().add(lblusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
 
+        cmbpuesto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbpuesto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbpuestoItemStateChanged(evt);
@@ -162,17 +170,21 @@ public class Empleados extends javax.swing.JFrame {
                 cmbpuestoActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 115, -1));
+        getContentPane().add(cmbpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 200, -1));
 
         txtcod.setEditable(false);
-        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 84, -1));
+        txtcod.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 84, -1));
 
+        lblcodigo.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblcodigo.setText("Código");
-        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, -1));
 
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel5.setText("Operación");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
 
+        cmboperacion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmboperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Agregar", "Modificar", "Eliminar" }));
         cmboperacion.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -184,16 +196,18 @@ public class Empleados extends javax.swing.JFrame {
                 cmboperacionActionPerformed(evt);
             }
         });
-        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 115, -1));
+        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 115, -1));
 
+        btnaccion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btnaccion.setText("jButton1");
         btnaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnaccionActionPerformed(evt);
             }
         });
-        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, -1, -1));
+        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, -1, -1));
 
+        cmbbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbbusqueda.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbbusquedaItemStateChanged(evt);
@@ -204,17 +218,22 @@ public class Empleados extends javax.swing.JFrame {
                 cmbbusquedaActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 115, -1));
+        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 200, -1));
 
+        lblbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblbusqueda.setText("Empleado");
-        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
+        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, -1, -1));
 
+        sueldo.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         sueldo.setText("Sueldo");
-        getContentPane().add(sueldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
-        getContentPane().add(txtsueldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 84, -1));
+        getContentPane().add(sueldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, -1, -1));
 
+        txtsueldo.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtsueldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 120, -1));
+
+        lblempleado.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblempleado.setText("Departamento");
-        getContentPane().add(lblempleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
+        getContentPane().add(lblempleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
 
         cmbcoddepto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -226,14 +245,15 @@ public class Empleados extends javax.swing.JFrame {
                 cmbcoddeptoActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbcoddepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, 115, -1));
+        getContentPane().add(cmbcoddepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, 115, -1));
 
+        cmbdepto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbdepto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbdeptoItemStateChanged(evt);
             }
         });
-        getContentPane().add(cmbdepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 115, -1));
+        getContentPane().add(cmbdepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 200, -1));
 
         cmbcodpuesto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -245,7 +265,16 @@ public class Empleados extends javax.swing.JFrame {
                 cmbcodpuestoActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbcodpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 115, -1));
+        getContentPane().add(cmbcodpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 115, -1));
+
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jButton1.setText("Menú");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -474,6 +503,13 @@ public class Empleados extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbcodpuestoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Menú inf=new Menú();
+        this.dispose();
+        inf.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -517,6 +553,7 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbdepto;
     private javax.swing.JComboBox<String> cmboperacion;
     private javax.swing.JComboBox<String> cmbpuesto;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblbusqueda;
     private javax.swing.JLabel lblcodigo;

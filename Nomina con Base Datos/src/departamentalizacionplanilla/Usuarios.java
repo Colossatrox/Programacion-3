@@ -25,7 +25,7 @@ public class Usuarios extends javax.swing.JFrame {
     public void limpiar(){
         txtcod.setText("");
         txtusuario.setText("");
-        jPasswordField1.setText("");
+        txtclave.setText("");
         cmbestado.setSelectedIndex(0);
         cmbemp.setSelectedIndex(0);
     }
@@ -89,7 +89,7 @@ public class Usuarios extends javax.swing.JFrame {
         lblusuario.setVisible(false);
         txtusuario.setVisible(false);
         lblclave.setVisible(false);
-        jPasswordField1.setVisible(false);
+        txtclave.setVisible(false);
         lblestado.setVisible(false);
         cmbestado.setVisible(false);
         cmbcodestado.setVisible(false);
@@ -125,17 +125,25 @@ public class Usuarios extends javax.swing.JFrame {
         cmbcodemp = new javax.swing.JComboBox<>();
         cmbemp = new javax.swing.JComboBox<>();
         cmbcodestado = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("USUARIOS");
+        setPreferredSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblestado.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblestado.setText("Estado");
-        getContentPane().add(lblestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
-        getContentPane().add(txtusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 84, -1));
+        getContentPane().add(lblestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, -1));
 
+        txtusuario.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 180, -1));
+
+        lblusuario.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblusuario.setText("Usuario");
-        getContentPane().add(lblusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+        getContentPane().add(lblusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, -1));
 
+        cmbestado.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Activo", "Inactivo" }));
         cmbestado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -147,17 +155,21 @@ public class Usuarios extends javax.swing.JFrame {
                 cmbestadoActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 115, -1));
+        getContentPane().add(cmbestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 115, -1));
 
         txtcod.setEditable(false);
-        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 84, -1));
+        txtcod.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 84, -1));
 
+        lblcodigo.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblcodigo.setText("Código");
-        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
 
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel5.setText("Operación");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
+        cmboperacion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmboperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Agregar", "Modificar", "Eliminar" }));
         cmboperacion.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -169,16 +181,18 @@ public class Usuarios extends javax.swing.JFrame {
                 cmboperacionActionPerformed(evt);
             }
         });
-        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 115, -1));
+        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 115, -1));
 
+        btnaccion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btnaccion.setText("jButton1");
         btnaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnaccionActionPerformed(evt);
             }
         });
-        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, -1, -1));
+        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, -1));
 
+        cmbbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbbusqueda.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbbusquedaItemStateChanged(evt);
@@ -189,17 +203,22 @@ public class Usuarios extends javax.swing.JFrame {
                 cmbbusquedaActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 115, -1));
+        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 180, -1));
 
+        lblbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblbusqueda.setText("Usuario");
-        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
+        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
 
+        lblclave.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblclave.setText("Clave");
-        getContentPane().add(lblclave, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
-        getContentPane().add(txtclave, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 84, -1));
+        getContentPane().add(lblclave, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, -1, -1));
 
+        txtclave.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtclave, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 180, -1));
+
+        lblempleado.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblempleado.setText("Empleado");
-        getContentPane().add(lblempleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
+        getContentPane().add(lblempleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, -1));
 
         cmbcodemp.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -211,14 +230,15 @@ public class Usuarios extends javax.swing.JFrame {
                 cmbcodempActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbcodemp, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, 115, -1));
+        getContentPane().add(cmbcodemp, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 220, 115, -1));
 
+        cmbemp.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbemp.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbempItemStateChanged(evt);
             }
         });
-        getContentPane().add(cmbemp, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 115, -1));
+        getContentPane().add(cmbemp, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 180, -1));
 
         cmbcodestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "0" }));
         cmbcodestado.addItemListener(new java.awt.event.ItemListener() {
@@ -231,7 +251,16 @@ public class Usuarios extends javax.swing.JFrame {
                 cmbcodestadoActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbcodestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 115, -1));
+        getContentPane().add(cmbcodestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 115, -1));
+
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jButton1.setText("Menú");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -255,7 +284,7 @@ public class Usuarios extends javax.swing.JFrame {
             lblcodigo.setVisible(false);
             txtcod.setVisible(false);
             lblclave.setVisible(true);
-            jPasswordField1.setVisible(true);
+            txtclave.setVisible(true);
             lblestado.setVisible(true);
             cmbestado.setVisible(true);
             lblempleado.setVisible(true);
@@ -271,7 +300,7 @@ public class Usuarios extends javax.swing.JFrame {
             lblcodigo.setVisible(true);
             txtcod.setVisible(true);
             lblclave.setVisible(true);
-            jPasswordField1.setVisible(true);
+            txtclave.setVisible(true);
             lblestado.setVisible(true);
             cmbestado.setVisible(true);
             lblempleado.setVisible(true);
@@ -287,7 +316,7 @@ public class Usuarios extends javax.swing.JFrame {
             lblcodigo.setVisible(true);
             txtcod.setVisible(true);
             lblclave.setVisible(true);
-            jPasswordField1.setVisible(true);
+            txtclave.setVisible(true);
             lblestado.setVisible(true);
             cmbestado.setVisible(true);
             lblempleado.setVisible(true);
@@ -303,7 +332,7 @@ public class Usuarios extends javax.swing.JFrame {
             lblusuario.setVisible(false);
             txtusuario.setVisible(false);
             lblclave.setVisible(false);
-            jPasswordField1.setVisible(false);
+            txtclave.setVisible(false);
             lblestado.setVisible(false);
             cmbestado.setVisible(false);
             cmbcodestado.setVisible(false);
@@ -318,7 +347,7 @@ public class Usuarios extends javax.swing.JFrame {
         if (cmboperacion.getSelectedIndex()==1) {
             if (txtusuario.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe de ingresar el nombre de usuario");
-            }else if (jPasswordField1.getText().equals("")) {
+            }else if (txtclave.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe de ingresar la clave del usuario");
             }else if (cmbestado.getSelectedIndex()==0) {
                 JOptionPane.showMessageDialog(this, "Debe de seleccionar el estado del usuario");
@@ -330,7 +359,7 @@ public class Usuarios extends javax.swing.JFrame {
                     PreparedStatement pst = cn.prepareStatement("insert into usuarios values(?,?,?,?,?)");
                     pst.setString(1, String.valueOf(intCod));
                     pst.setString(2, txtusuario.getText().trim());
-                    pst.setString(3, jPasswordField1.getText().trim());
+                    pst.setString(3, txtclave.getText().trim());
                     pst.setString(4, String.valueOf(cmbcodestado.getSelectedItem()));
                     pst.setString(5, String.valueOf(cmbcodemp.getSelectedItem()));
                     pst.executeUpdate();
@@ -351,7 +380,7 @@ public class Usuarios extends javax.swing.JFrame {
                     PreparedStatement pst = cn.prepareStatement("update usuarios set nombre_usuario= ?, clave_usuario= ?, estado_usuario= ?, codigo_emp= ? where codigo_usuario= " + ID);
 
                     pst.setString(1, txtusuario.getText().trim());
-                    pst.setString(2, jPasswordField1.getText().trim());
+                    pst.setString(2, txtclave.getText().trim());
                     pst.setString(3, cmbcodestado.getSelectedItem().toString());
                     pst.setString(4, cmbcodemp.getSelectedItem().toString());
                     pst.executeUpdate();
@@ -394,7 +423,7 @@ public class Usuarios extends javax.swing.JFrame {
                 if(rs.next()){
                     txtcod.setText(rs.getString("codigo_usuario"));
                     txtusuario.setText(rs.getString("nombre_usuario"));
-                    jPasswordField1.setText(rs.getString("clave_usuario"));
+                    txtclave.setText(rs.getString("clave_usuario"));
                     cmbcodestado.setSelectedItem(rs.getString("estado_usuario"));
                     cmbcodemp.setSelectedItem(rs.getString("codigo_emp"));
                     btnaccion.setVisible(true);
@@ -463,6 +492,13 @@ public class Usuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbestadoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Menú inf=new Menú();
+        this.dispose();
+        inf.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -506,6 +542,7 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbemp;
     private javax.swing.JComboBox<String> cmbestado;
     private javax.swing.JComboBox<String> cmboperacion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblbusqueda;
     private javax.swing.JLabel lblclave;

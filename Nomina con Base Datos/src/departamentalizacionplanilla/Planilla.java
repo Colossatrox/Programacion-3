@@ -5,7 +5,12 @@
  */
 package departamentalizacionplanilla;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DecimalFormat;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,114 +21,67 @@ import javax.swing.table.DefaultTableModel;
  * @author Bryan
  */
 public class Planilla extends javax.swing.JFrame {
-String strDep[]=new String [9];
-String strPlanilla[][]=new String [11][12];
-DecimalFormat dfformato = new DecimalFormat("####.##");
-int intRandom;
+    public static int intFilas,intConcepto;
+    public static double dblTotal;
     /**
      * Creates new form Planilla
      */
     public Planilla() {
-        for (int i = 0; i < 5; i++) {
-            strDep[i]="0";
-        }
-        funRegistroEmpleado();
-        funOpAfectan();
-        funCalcPercepciones();
-        funISR();
-        funCalcDeducciones();
-        funTotalLiquido();
-        funTotDepartamento();
         initComponents();
-        funMostrarTabla();
-        
-    }
-    public void funRegistroEmpleado(){
-        for (int i = 0; i < 10; i++) {
-            strPlanilla[i][0]=JOptionPane.showInputDialog("Ingrese el nombre completo de la persona No. "+(i+1));
-            strPlanilla[i][1]=String.valueOf((int)(Math.random()*7500)+2500);
-            strPlanilla[i][2]=String.valueOf((int)(Math.random()*2250)+250);
-            strPlanilla[i][3]=String.valueOf((int)(Math.random()*3500)+500);
-            strPlanilla[i][5]=String.valueOf((int)(Math.random()*2000)+1000);
-            strPlanilla[i][8]=String.valueOf((int)(Math.random()*5)+1);
-        }
-    }
-    public void funOpAfectan(){
-        for (int i = 0; i < 10; i++) {
-            int intafecta=0,interror;
-            do {
-                interror=0;
-                intafecta=Integer.parseInt(JOptionPane.showInputDialog("La persona "+strPlanilla[i][0]+" paga IGSS\n 1)SI\n 2)NO"));
-                switch(intafecta){
-                    case 1: strPlanilla[i][4]=String.valueOf(dfformato.format(Integer.parseInt(strPlanilla[i][1])*.0483));
-                        break;
-                    case 2: strPlanilla[i][4]="0";
-                        break;
-                    default: JOptionPane.showMessageDialog(null, "Debe de seleccionar una opcion valida"); interror=1;
-                }
-            } while (interror==1);
-        }
-    }
-    public void funCalcPercepciones(){
-        for (int i = 0; i < 10; i++) {
-            strPlanilla[i][10]=String.valueOf(Integer.parseInt(strPlanilla[i][1])+Integer.parseInt(strPlanilla[i][2])+Integer.parseInt(strPlanilla[i][3]));
-        }
-    }
-    public void funCalcDeducciones(){
-        for (int i = 0; i < 10; i++) {
-            strPlanilla[i][11]=String.valueOf(Double.parseDouble(strPlanilla[i][4])+Double.parseDouble(strPlanilla[i][5])+Double.parseDouble(strPlanilla[i][6]));
-        }
-    }
-    public void funISR(){
-        for (int i = 0; i < 10; i++) {
-            Double dtot1;
-            dtot1=Double.parseDouble(strPlanilla[i][1]);
-            if (dtot1<2600) {
-                strPlanilla[i][6]="0";
-            }else if (dtot1<=5000) {
-                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.03));
-            }else if (dtot1<=10000) {
-                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.05));
-            }else{
-                strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.1));
-            }
-        }
-    }
-    public void funTotalLiquido(){
-        for (int i = 0; i < 10; i++) {
-           strPlanilla[i][7]=String.valueOf(Integer.parseInt(strPlanilla[i][10])+Double.parseDouble(strPlanilla[i][11]));
-        }
-    }
-    public void funTotDepartamento(){
-        for (int i = 0; i < 10; i++) {
-            if (Integer.parseInt(strPlanilla[i][8])==1) {
-                strDep[0]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[0])));
-            }else if (Integer.parseInt(strPlanilla[i][8])==2) {
-                strDep[1]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[1])));
-            }else if (Integer.parseInt(strPlanilla[i][8])==3) {
-                strDep[2]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[2])));
-            }else if (Integer.parseInt(strPlanilla[i][8])==4) {
-                strDep[3]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[3])));
-            }else{
-                strDep[4]=String.valueOf(dfformato.format(Double.parseDouble(strPlanilla[i][7])+Double.parseDouble(strDep[4])));
-            }
-        }
-    }
-    public void funMostrarTabla(){
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        intConcepto=0;
+        cmbcodfn.setVisible(false);
+        cmbfn.addItem("");
+        cmbcodfn.addItem("");
+        try{
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+            PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado");
+            ResultSet rs = pst.executeQuery();
             
-             strPlanilla,
-            new String [] {
-                "Nombre", "Sueldo Base", "Bonificación", "Comisión", "IGSS", "Descuento Judicial", "ISR", "Sueldo Liquido", "Departamento"
+            boolean r=rs.next();
+            while(r){
+                cmbfn.addItem(rs.getString("fecha_inicial_nominal")+" - "+rs.getString("fecha_final_nominal"));
+                cmbcodfn.addItem(rs.getString("codigo_nominal"));
+                r=rs.next();
             }
-        ));
-        
-        DefaultTableModel dtmTabla= new DefaultTableModel(new String[] {"Total por departamento"},0);
-        for (int i = 0; i < 5; i++) {
-            Object[] obTotal={strDep[i]};
-            dtmTabla.addRow(obTotal);
+        }catch (Exception e){
+            System.out.println("le dio un pujaso");
         }
-        jTable3.setModel(dtmTabla);
+        DefaultTableModel dtm= (DefaultTableModel) dgvtabla.getModel();
+        try{
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+            PreparedStatement pst = cn.prepareStatement("select * from concepto");
+            ResultSet rs = pst.executeQuery();
+            
+            boolean r=rs.next();
+            while(r){
+                dtm.addColumn(rs.getString("nombre_concepto"));
+                intConcepto++;
+                r=rs.next();
+            }
+        }catch (Exception e){
+            System.out.println("le dio un pujaso");
+        }
+        dtm.addColumn("Sueldo Liquido");
+        dtm.addColumn("Departamento");
+        dgvtabla.setModel(dtm);
+        DefaultTableModel dtmdep= (DefaultTableModel) dgvdep.getModel();
+        try{
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+            PreparedStatement pst = cn.prepareStatement("select * from departamentos");
+            ResultSet rs = pst.executeQuery();
+            
+            boolean r=rs.next();
+            while(r){
+                Object [] filaDep={rs.getString("nombre_depto")};
+                dtmdep.addRow(filaDep);
+                r=rs.next();
+            }
+        }catch (Exception e){
+            System.out.println("le dio un pujaso");
+        }
+        for (int i = dgvdep.getModel().getRowCount()-1; i>=0; i--) {
+                dgvdep.getModel().setValueAt(0.00, i, 1);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,41 +93,34 @@ int intRandom;
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        dgvtabla = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        dgvdep = new javax.swing.JTable();
+        cmbfn = new javax.swing.JComboBox<>();
+        cmbcodfn = new javax.swing.JComboBox<>();
+        lblfecha = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("PLANILLA");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        dgvtabla.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        dgvtabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Nombre", "Sueldo Base", "Bonificación", "Comisión", "IGSS", "Descuento Judicial", "ISR", "Sueldo Liquido", "Departamento"
+                "Nombre"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(dgvtabla);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 770, 242));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 1020, 300));
 
-        jButton1.setText("Ingresar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
-
-        jTable2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTable2.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"2600-5000", "3"},
@@ -182,38 +133,171 @@ int intRandom;
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 180, 190, 80));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 110, 280, 80));
 
-        jTable3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        dgvdep.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        dgvdep.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "Total Departamento"
+                "Nombre Departamento", "Totales"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(dgvdep);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 30, 141, 110));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 210, 300, 200));
+
+        cmbfn.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        cmbfn.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbfnItemStateChanged(evt);
+            }
+        });
+        cmbfn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbfnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbfn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 260, -1));
+
+        cmbcodfn.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        cmbcodfn.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbcodfnItemStateChanged(evt);
+            }
+        });
+        cmbcodfn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbcodfnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbcodfn, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, 115, -1));
+
+        lblfecha.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        lblfecha.setText("Fecha Nomina");
+        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jButton1.setText("Menú");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmbfnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbfnItemStateChanged
+
+    }//GEN-LAST:event_cmbfnItemStateChanged
+
+    private void cmbfnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbfnActionPerformed
+        // TODO add your handling code here:
+        for (int i = dgvdep.getModel().getRowCount()-1; i>=0; i--) {
+                dgvdep.getModel().setValueAt(0.00, i, 1);
+        }
+        DefaultTableModel dtmnomina= (DefaultTableModel) dgvtabla.getModel();
+        int intFila=-1, intColumna=1, intEcontrado=0;
+        try{
+             for (int i = intFilas-1; i>=0; i--) {
+                dtmnomina.removeRow(i);
+            }
+        }catch(Exception e){
+            
+        }
+       
+        
+        String strCodant="";
+        try{
+            this.cmbcodfn.setSelectedIndex(this.cmbfn.getSelectedIndex());
+        }catch(Exception e){
+            
+        }
+        if (cmbfn.getSelectedIndex()!=0) {
+            
+           try{
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+                PreparedStatement pst = cn.prepareStatement("select empleados.codigo_depto, empleados.codigo_emp, empleados.nombre_emp, nomina_detalle.codigo_nominal, nomina_detalle.codigo_emp,nomina_encabezado.codigo_nominal,nomina_detalle.codigo_nominal, departamentos.nombre_depto from empleados,nomina_detalle, nomina_encabezado, departamentos where empleados.codigo_depto=departamentos.codigo_depto and empleados.codigo_emp=nomina_detalle.codigo_emp and nomina_detalle.codigo_nominal=nomina_encabezado.codigo_nominal and nomina_encabezado.codigo_nominal="+String.valueOf(cmbcodfn.getSelectedItem()));
+                ResultSet rs = pst.executeQuery();
+
+                boolean r=rs.next();
+                while(r){
+                    if (!rs.getString("codigo_emp").equals(strCodant)) {
+                        dblTotal=0;
+                        intFila++;
+                        Object [] filaDep={rs.getString("empleados.nombre_emp")};
+                        dtmnomina.addRow(filaDep);
+                        for (int i = 1; i <= intConcepto; i++) {
+                            try{
+                                intEcontrado=0;
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+                                PreparedStatement post = con.prepareStatement("SELECT * FROM nomina_detalle,concepto where nomina_detalle.codigo_concepto=concepto.codigo_concepto and nomina_detalle.codigo_nominal="+String.valueOf(cmbcodfn.getSelectedItem())+" and nomina_detalle.codigo_emp="+rs.getString("empleados.codigo_emp")+" and nomina_detalle.codigo_concepto="+ String.valueOf(i));
+                                ResultSet ress = post.executeQuery();
+                                boolean ra=ress.next();
+                                while(ra){
+                                    dgvtabla.getModel().setValueAt(ress.getString("nomina_detalle.valor_nominadetalle"), intFila, intColumna);
+                                    if (ress.getString("concepto.efecto_concepto").equals("+")) {
+                                        dblTotal+=Double.parseDouble(ress.getString("nomina_detalle.valor_nominadetalle"));
+                                    }else{
+                                        dblTotal-=Double.parseDouble(ress.getString("nomina_detalle.valor_nominadetalle"));
+                                    }
+                                    intColumna++;
+                                    intEcontrado=1;
+                                    ra=ress.next();
+                                }
+                                if (intEcontrado!=1) {
+                                    dgvtabla.getModel().setValueAt("N.I.", intFila, intColumna);
+                                    intColumna++;
+                                }
+                            }catch (Exception e){
+                                System.out.println(e);
+                            }
+                        }
+                        dgvtabla.getModel().setValueAt(dblTotal, intFila, intColumna);
+                        intColumna++;
+                        dgvtabla.getModel().setValueAt(rs.getString("departamentos.nombre_depto"), intFila, intColumna);
+                        int intTotdep=Integer.parseInt(rs.getString("empleados.codigo_depto"));
+                        Double dbltot=(Double) dgvdep.getValueAt(intTotdep-1, 1);
+                        if (dbltot==null) {
+                            dbltot=0.0;
+                        }
+                        dgvdep.getModel().setValueAt(dblTotal+dbltot, Integer.parseInt(rs.getString("empleados.codigo_depto"))-1, 1);
+                    }
+                    strCodant=rs.getString("empleados.codigo_emp");
+                    intColumna=1;
+                    r=rs.next();
+                }
+            }catch (Exception e){
+                System.out.println("le dio un pujaso "+e);
+            }
+        }
+        intFilas=dgvtabla.getModel().getRowCount();
+    }//GEN-LAST:event_cmbfnActionPerformed
+
+    private void cmbcodfnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbcodfnItemStateChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cmbcodfnItemStateChanged
+
+    private void cmbcodfnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbcodfnActionPerformed
+        // TODO add your handling code here:
+        try{
+            this.cmbfn.setSelectedIndex(this.cmbcodfn.getSelectedIndex());
+        }catch(Exception e){
+        }
+    }//GEN-LAST:event_cmbcodfnActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        funRegistroEmpleado();
-        funOpAfectan();
-        funCalcPercepciones();
-        funISR();
-        funCalcDeducciones();
-        funTotalLiquido();
-        funTotDepartamento();
-        initComponents();
-        funMostrarTabla();
+        // TODO add your handling code here:
+        Menú inf=new Menú();
+        this.dispose();
+        inf.setVisible(true);
+        /*for (int i = dgvtabla.getColumnCount()-1; i >= 1; i--) {
+            dgvtabla.removeColumn(dgvtabla.getColumnModel().getColumn(i));
+        }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -252,12 +336,15 @@ int intRandom;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbcodfn;
+    private javax.swing.JComboBox<String> cmbfn;
+    private javax.swing.JTable dgvdep;
+    private javax.swing.JTable dgvtabla;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JLabel lblfecha;
     // End of variables declaration//GEN-END:variables
 }

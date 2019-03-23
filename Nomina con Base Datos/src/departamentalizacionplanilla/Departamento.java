@@ -90,13 +90,18 @@ public class Departamento extends javax.swing.JFrame {
         lbldepto = new javax.swing.JLabel();
         txtdepto = new javax.swing.JTextField();
         btnaccion = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DEPARTAMENTOS");
+        setPreferredSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel5.setText("Operación");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
 
+        cmboperacion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmboperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Agregar", "Modificar", "Eliminar" }));
         cmboperacion.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -108,17 +113,21 @@ public class Departamento extends javax.swing.JFrame {
                 cmboperacionActionPerformed(evt);
             }
         });
-        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 115, -1));
+        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 115, -1));
 
+        lblcodigo.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblcodigo.setText("Código");
-        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
+        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
 
         txtcod.setEditable(false);
-        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 84, -1));
+        txtcod.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 84, -1));
 
+        lblbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblbusqueda.setText("Departamento");
-        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
+        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
+        cmbbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbbusqueda.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbbusquedaItemStateChanged(evt);
@@ -129,19 +138,32 @@ public class Departamento extends javax.swing.JFrame {
                 cmbbusquedaActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 115, -1));
+        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 200, -1));
 
+        lbldepto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lbldepto.setText("Departamento");
-        getContentPane().add(lbldepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, -1, -1));
-        getContentPane().add(txtdepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 84, -1));
+        getContentPane().add(lbldepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
 
+        txtdepto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtdepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 200, -1));
+
+        btnaccion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btnaccion.setText("jButton1");
         btnaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnaccionActionPerformed(evt);
             }
         });
-        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, -1, -1));
+        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, -1));
+
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jButton1.setText("Menú");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -284,6 +306,13 @@ public class Departamento extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnaccionActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Menú inf=new Menú();
+        this.dispose();
+        inf.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -324,6 +353,7 @@ public class Departamento extends javax.swing.JFrame {
     private javax.swing.JButton btnaccion;
     private javax.swing.JComboBox<String> cmbbusqueda;
     private javax.swing.JComboBox<String> cmboperacion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblbusqueda;
     private javax.swing.JLabel lblcodigo;

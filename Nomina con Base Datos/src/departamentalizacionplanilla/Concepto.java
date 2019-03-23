@@ -93,34 +93,46 @@ public class Concepto extends javax.swing.JFrame {
         btnaccion = new javax.swing.JButton();
         cmbbusqueda = new javax.swing.JComboBox<>();
         lblbusqueda = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("CONCEPTOS");
+        setPreferredSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblefecto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblefecto.setText("Efecto");
-        getContentPane().add(lblefecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, -1));
-        getContentPane().add(txtconcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 84, -1));
+        getContentPane().add(lblefecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
 
+        txtconcepto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtconcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 180, -1));
+
+        lblconcepto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblconcepto.setText("Concepto");
-        getContentPane().add(lblconcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+        getContentPane().add(lblconcepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
 
+        cmbefecto.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbefecto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "+", "-" }));
         cmbefecto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbefectoItemStateChanged(evt);
             }
         });
-        getContentPane().add(cmbefecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 115, -1));
+        getContentPane().add(cmbefecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 80, -1));
 
         txtcod.setEditable(false);
-        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 84, -1));
+        txtcod.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 84, -1));
 
+        lblcodigo.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblcodigo.setText("Código");
-        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
+        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
 
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel5.setText("Operación");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
+        cmboperacion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmboperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Agregar", "Modificar", "Eliminar" }));
         cmboperacion.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -132,16 +144,18 @@ public class Concepto extends javax.swing.JFrame {
                 cmboperacionActionPerformed(evt);
             }
         });
-        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 115, -1));
+        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 140, -1));
 
+        btnaccion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btnaccion.setText("jButton1");
         btnaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnaccionActionPerformed(evt);
             }
         });
-        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, -1, -1));
+        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, -1, -1));
 
+        cmbbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         cmbbusqueda.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbbusquedaItemStateChanged(evt);
@@ -152,10 +166,20 @@ public class Concepto extends javax.swing.JFrame {
                 cmbbusquedaActionPerformed(evt);
             }
         });
-        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 115, -1));
+        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 180, -1));
 
+        lblbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         lblbusqueda.setText("Concepto");
-        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
+        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
+
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jButton1.setText("Menú");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -314,6 +338,13 @@ public class Concepto extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cmbbusquedaActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Menú inf=new Menú();
+                this.dispose();
+                inf.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,6 +385,7 @@ public class Concepto extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbbusqueda;
     private javax.swing.JComboBox<String> cmbefecto;
     private javax.swing.JComboBox<String> cmboperacion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblbusqueda;
     private javax.swing.JLabel lblcodigo;

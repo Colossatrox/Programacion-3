@@ -5,17 +5,102 @@
  */
 package departamentalizacionplanilla;
 
+import static departamentalizacionplanilla.Empleados.intCod;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javafx.scene.control.DatePicker;
+import javafx.util.converter.LocalDateStringConverter;
+import static javax.print.attribute.Size2DSyntax.MM;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bryan
  */
 public class Nomina extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Nomina
      */
+    public static int intCod=0;
+    public static String strDia(int intdia){
+        String strDia="";
+        if (intdia<=9) {
+            strDia="0"+String.valueOf(intdia);
+        }else{
+            strDia=String.valueOf(intdia);
+        }
+        return strDia;
+    }
+    public static String strMes(int intmes){
+        String strMes="";
+        if (intmes<9) {
+            strMes="0"+String.valueOf(intmes+1);
+        }else{
+            strMes=String.valueOf(intmes+1);
+        }
+        return strMes;
+    }
+    public static String strA(int intA){
+        String strA=String.valueOf(intA).substring(1, 3);
+        return strA;
+    }
+    public void limpiar(){
+        txtcod.setText("");
+    }
+    public void actualizarbusqueda(){
+        cmbbusqueda.removeAllItems();
+        cmbbusqueda.addItem("");
+        try{
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+            PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado");
+            ResultSet rs = pst.executeQuery();
+            
+            boolean r=rs.next();
+            while(r){
+                cmbbusqueda.addItem(rs.getString("fecha_inicial_nominal")+" - "+rs.getString("fecha_final_nominal"));
+                r=rs.next();
+            }
+        }catch (Exception e){
+            System.out.println("le dio un pujaso");
+        }
+    }
     public Nomina() {
+        try{
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+            PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado");
+            ResultSet rs = pst.executeQuery();
+            
+            boolean r=rs.next();
+            while(r){
+                if (intCod< Integer.parseInt(rs.getString("codigo_nominal"))) {
+                    intCod=Integer.parseInt(rs.getString("codigo_nominal"));
+                }
+                r=rs.next();
+            }
+            intCod++;
+            System.out.println(intCod);
+        }catch (Exception e){
+            System.out.println("le dio un pujaso");
+        }
         initComponents();
+        actualizarbusqueda();
+        lblbusqueda.setVisible(false);
+        cmbbusqueda.setVisible(false);
+        lblcodigo.setVisible(false);
+        txtcod.setVisible(false);
+        lblfi.setVisible(false);
+        lblff.setVisible(false);
+        dtpfi.setVisible(false);
+        dtpff.setVisible(false);
+        btnaccion.setVisible(false);
+        
+        dtpff.setFormats("dd/MM/yyyy");
     }
 
     /**
@@ -27,31 +112,253 @@ public class Nomina extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        dtpfi = new org.jdesktop.swingx.JXDatePicker();
+        dtpff = new org.jdesktop.swingx.JXDatePicker();
+        cmboperacion = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        lblbusqueda = new javax.swing.JLabel();
+        cmbbusqueda = new javax.swing.JComboBox<>();
+        lblfi = new javax.swing.JLabel();
+        lblff = new javax.swing.JLabel();
+        btnaccion = new javax.swing.JButton();
+        lblcodigo = new javax.swing.JLabel();
+        txtcod = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("NOMINA");
+        setPreferredSize(new java.awt.Dimension(400, 400));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        dtpfi.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        dtpfi.setFormats("dd/MM/yyyy");
+        dtpfi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dtpfiMouseClicked(evt);
+            }
+        });
+        dtpfi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dtpfiActionPerformed(evt);
+            }
+        });
+        getContentPane().add(dtpfi, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(133, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(179, Short.MAX_VALUE))
-        );
+        dtpff.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(dtpff, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, -1, -1));
+
+        cmboperacion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        cmboperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Agregar", "Modificar" }));
+        cmboperacion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmboperacionItemStateChanged(evt);
+            }
+        });
+        cmboperacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmboperacionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmboperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 115, -1));
+
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel5.setText("Operación");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
+
+        lblbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        lblbusqueda.setText("Fecha de Nomina");
+        getContentPane().add(lblbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+
+        cmbbusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        cmbbusqueda.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbbusquedaItemStateChanged(evt);
+            }
+        });
+        cmbbusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbbusquedaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmbbusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 220, -1));
+
+        lblfi.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        lblfi.setText("Fecha Inicial");
+        getContentPane().add(lblfi, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
+
+        lblff.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        lblff.setText("Fecha Final");
+        getContentPane().add(lblff, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+
+        btnaccion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        btnaccion.setText("jButton1");
+        btnaccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnaccionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
+
+        lblcodigo.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        lblcodigo.setText("Código");
+        getContentPane().add(lblcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, -1));
+
+        txtcod.setEditable(false);
+        txtcod.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        getContentPane().add(txtcod, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 84, -1));
+
+        jButton1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jButton1.setText("Menú");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmboperacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmboperacionItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmboperacionItemStateChanged
+
+    private void cmboperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboperacionActionPerformed
+        // TODO add your handling code here:
+        if (cmboperacion.getSelectedIndex()==1) {
+            limpiar();
+            lblbusqueda.setVisible(false);
+            cmbbusqueda.setVisible(false);
+            lblcodigo.setVisible(false);
+            txtcod.setVisible(false);
+            lblfi.setVisible(true);
+            lblff.setVisible(true);
+            dtpfi.setVisible(true);
+            dtpff.setVisible(true);
+            btnaccion.setVisible(true);
+            btnaccion.setText("Agregar");
+        }else if (cmboperacion.getSelectedIndex()==2) {
+            limpiar();
+            lblbusqueda.setVisible(true);
+            cmbbusqueda.setVisible(true);
+            lblcodigo.setVisible(true);
+            txtcod.setVisible(true);
+            lblfi.setVisible(true);
+            lblff.setVisible(true);
+            dtpfi.setVisible(true);
+            dtpff.setVisible(true);
+            btnaccion.setVisible(false);
+            btnaccion.setText("Modificar");
+        }else{
+            limpiar();
+            lblbusqueda.setVisible(false);
+            cmbbusqueda.setVisible(false);
+            lblcodigo.setVisible(false);
+            txtcod.setVisible(false);
+            lblfi.setVisible(false);
+            lblff.setVisible(false);
+            dtpfi.setVisible(false);
+            dtpff.setVisible(false);
+        }
+    }//GEN-LAST:event_cmboperacionActionPerformed
+
+    private void cmbbusquedaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbbusquedaItemStateChanged
+        // TODO add your handling code here:
+        String strTexto;
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
+        if (cmbbusqueda.getSelectedIndex()!=0) {
+            try{
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+                PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado where fecha_inicial_nominal = ?");
+                pst.setString(1,cmbbusqueda.getSelectedItem().toString().substring(0, 8));
+                ResultSet rs = pst.executeQuery();
+                if(rs.next()){
+                    txtcod.setText(rs.getString("codigo_nominal"));
+                    strTexto=rs.getString("fecha_inicial_nominal");
+                    dtpfi.setDate(formatoDelTexto.parse(strTexto));
+                    strTexto=rs.getString("fecha_final_nominal");
+                    dtpff.setDate(formatoDelTexto.parse(strTexto));
+                    btnaccion.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No encontrado");
+                }
+
+            }catch (Exception e){
+                //System.out.println("le dio un pujaso");
+            }
+        }else{
+            limpiar();
+            if (cmboperacion.getSelectedIndex()!=1) {
+                btnaccion.setVisible(false);
+            }
+
+        }
+    }//GEN-LAST:event_cmbbusquedaItemStateChanged
+
+    private void cmbbusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbbusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbbusquedaActionPerformed
+
+    private void btnaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaccionActionPerformed
+        // TODO add your handling code here:
+        if (cmboperacion.getSelectedIndex()==1) {
+            if (dtpfi.getDate().equals("")) {
+                JOptionPane.showMessageDialog(this, "Debe de seleccionar la fecha inicial de la nomina");
+            }else if (dtpff.getDate().equals("")) {
+                JOptionPane.showMessageDialog(this, "Debe de seleccionar la fecha final de la nomina");
+            }else{
+                try{
+                    Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+                    PreparedStatement pst = cn.prepareStatement("insert into nomina_encabezado values(?,?,?,?)");
+                    pst.setString(1, String.valueOf(intCod));
+                    pst.setString(2, String.valueOf(strDia(dtpfi.getDate().getDate()))+"/"+String.valueOf(strMes(dtpfi.getDate().getMonth()))+"/"+String.valueOf(strA(dtpfi.getDate().getYear())));
+                    pst.setString(3, String.valueOf(strDia(dtpff.getDate().getDate()))+"/"+String.valueOf(strMes(dtpff.getDate().getMonth()))+"/"+String.valueOf(strA(dtpff.getDate().getYear())));
+                    pst.setString(4, "0");
+                    pst.executeUpdate();
+                    intCod++;
+                    JOptionPane.showMessageDialog(this, "Datos ingresados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    actualizarbusqueda();
+                }catch (Exception e){
+                    System.out.println("le dio un error");
+                }
+            }
+        }else if (cmboperacion.getSelectedIndex()==2) {
+            if (JOptionPane.showConfirmDialog(this, "Está seguro de modificar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+                try {
+                    String ID = txtcod.getText().trim();
+
+                    Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
+                    PreparedStatement pst = cn.prepareStatement("update nomina_encabezado set fecha_inicial_nominal= ?, fecha_final_nominal= ? where codigo_nominal= " + ID);
+
+                    pst.setString(1, String.valueOf(strDia(dtpfi.getDate().getDate()))+"/"+String.valueOf(strMes(dtpfi.getDate().getMonth()))+"/"+String.valueOf(strA(dtpfi.getDate().getYear())));
+                    pst.setString(2, String.valueOf(strDia(dtpff.getDate().getDate()))+"/"+String.valueOf(strMes(dtpff.getDate().getMonth()))+"/"+String.valueOf(strA(dtpff.getDate().getYear())));
+                    pst.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Datos modificados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    limpiar();
+                    actualizarbusqueda();
+                } catch (Exception e) {
+                    System.out.println("le dio un pujaso de modificacion");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnaccionActionPerformed
+
+    private void dtpfiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtpfiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtpfiActionPerformed
+
+    private void dtpfiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dtpfiMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dtpfiMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Menú inf=new Menú();
+        this.dispose();
+        inf.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -89,6 +396,17 @@ public class Nomina extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JButton btnaccion;
+    private javax.swing.JComboBox<String> cmbbusqueda;
+    private javax.swing.JComboBox<String> cmboperacion;
+    private org.jdesktop.swingx.JXDatePicker dtpff;
+    private org.jdesktop.swingx.JXDatePicker dtpfi;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lblbusqueda;
+    private javax.swing.JLabel lblcodigo;
+    private javax.swing.JLabel lblff;
+    private javax.swing.JLabel lblfi;
+    private javax.swing.JTextField txtcod;
     // End of variables declaration//GEN-END:variables
 }
