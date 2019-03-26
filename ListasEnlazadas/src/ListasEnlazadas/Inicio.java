@@ -5,6 +5,8 @@
  */
 package ListasEnlazadas;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bryan Orlando Aguirre Sagastume 
@@ -17,19 +19,48 @@ public class Inicio {
      */
     public static void main(String[] args) {
         ListasEnlazadas miLista=new ListasEnlazadas();
-	miLista.InsertarEnPrimero(10);
-	miLista.InsertarEnPrimero(15);
-	miLista.InsertarEnPrimero(30);
-	miLista.InsertarEnPrimero(50);
-	miLista.InsertarEnPrimero(40);
-	miLista.InsertarEnPrimero(60);
-	System.out.println(miLista.Listar());
-	System.out.println("borrar");
-	miLista.borrarUltimo();
-        miLista.borrarPrimero();
-	
-	System.out.println(miLista.Listar());
-// TODO code application logic here
+        miLista.ListasVacia();
+        int intop=0;
+        do {
+            int intdato, intpos;
+            intop=Integer.parseInt(JOptionPane.showInputDialog("Seleccione una opción a realizar\n 0. Salir \n 1. Ver si la lista es vacía\n 2. Insertar dato en la primera posición"
+                    + "\n 3. Borrar el dato en la primera posición \n 4. Borrar último dato \n 5. Borrar dato en posición especificada \n 6. Insertar entre nodos"
+                    + "\n 7. Localizar posición de un dato"));
+            switch(intop){
+                case 1: if (miLista.Esvacia()==true) {
+                            JOptionPane.showMessageDialog(null, "Lista Vacia");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Lista con datos");
+                        }
+                    break;
+                case 2: intdato=Integer.parseInt(JOptionPane.showInputDialog("Ingrese el dato que desea "));
+                        miLista.InsertarEnPrimero(intdato);
+                        JOptionPane.showMessageDialog(null, miLista.Listar());
+                break;
+                case 3: JOptionPane.showMessageDialog(null,"Antes"+ miLista.Listar());
+                        miLista.borrarPrimero();
+                        JOptionPane.showMessageDialog(null,"Despues"+ miLista.Listar());
+                break;
+                case 4: JOptionPane.showMessageDialog(null,"Antes"+ miLista.Listar());
+                        miLista.borrarUltimo();
+                        JOptionPane.showMessageDialog(null,"Despues"+ miLista.Listar());
+                break;
+                case 5: intdato=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion que desea borrar"));
+                        JOptionPane.showMessageDialog(null,"Antes"+ miLista.Listar());
+                        miLista.borrarPosicion(intdato);
+                        JOptionPane.showMessageDialog(null,"Despues"+ miLista.Listar());
+                break;
+                case 6: intdato=Integer.parseInt(JOptionPane.showInputDialog("Ingrese el dato que desea insertar"));
+                        intpos=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion que desea insertar"));
+                        JOptionPane.showMessageDialog(null,"Antes"+ miLista.Listar());
+                        miLista.InsertarEntreNodos(intdato, intpos);
+                        JOptionPane.showMessageDialog(null,"Despues"+ miLista.Listar());
+                break;
+                case 7: intdato=Integer.parseInt(JOptionPane.showInputDialog("Ingrese el dato que desea buscar"));
+                        JOptionPane.showMessageDialog(null,"Posicion "+ miLista.Localizar(intdato));
+                break;
+            }
+        } while (intop!=0);
     }
     
 }

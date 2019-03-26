@@ -18,8 +18,13 @@ public class ListasEnlazadas
 	{
 		Primero=null;
 	}
+        //método para inicializar la el nodo como nulo  
+        public void ListasVacia()
+	{
+		Primero=null;
+	}
         //revisa si el nodo "Primero" esta vacío y si si devuelve verdadero, de lo contrario falso
-	public boolean vacia()
+	public boolean Esvacia()
 	{
 		if (Primero==null)
 		{
@@ -81,10 +86,41 @@ public class ListasEnlazadas
 				anterior=actual;
 				actual=actual.Siguiente;
 				k++;
-				System.out.println("K       "+k);
 			}
 			anterior.Siguiente=actual.Siguiente;
 		}
 	}
+        //
+        public void InsertarEntreNodos(int dato, int pos){
+            Nodo Temporal=new Nodo(dato);
+            Nodo anterior=Primero;
+            Nodo actual=Primero;
+            int k=0;
+            if (pos>0)
+		{
+                    //ciclo para encontrar la posición que se especifico y corre los demás nodos
+			while (k!=pos && actual.Siguiente != null)
+			{
+				anterior=actual;
+				actual=actual.Siguiente;
+                                Temporal.Siguiente=actual;
+				k++;
+			}
+                        anterior.Siguiente=Temporal;
+                        actual=Temporal.Siguiente;
+		}
+        }
+        //
+        public int Localizar(int dato){
+            int pos=0;
+		Nodo aux=Primero;
+                //ciclo para obtener los datos que contiene la lista
+		while (aux.info!=dato)
+		{
+			aux=aux.Siguiente;
+                        pos++;
+		}
+                return(pos);
+        }
 
 }
