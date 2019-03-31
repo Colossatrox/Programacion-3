@@ -1,0 +1,12 @@
+Registro de los pacientes
+
+Código del paciente: 1
+Nombre completo del paciente: adsfasdf
+Terapias pendientes: 0
+
+
+Código del paciente: 25
+Nombre completo del paciente: dfgsdfg
+Terapias pendientes: 0
+
+
