@@ -12,44 +12,64 @@ import javax.swing.JOptionPane;
  * @author Bryan
  */
 public class Inicio {
+    public static Lista miLista=new Lista();
     public static String titulo, autor, isbn;
     public static void pedirDatos(){
        titulo=JOptionPane.showInputDialog("Ingrese el titulo del libro");
        autor=JOptionPane.showInputDialog("Ingrese el autor del libro");
        isbn=JOptionPane.showInputDialog("Ingrese el el isbn del libro");
     }
+    public static void mostrar(){
+       JOptionPane.showMessageDialog(null, "Titulo                 Autor               Isbn                \n"+miLista.Listar()); 
+    }
     public static void main(String[] args) {
-        Lista miLista=new Lista();
+        
         //miLista.ListasVacia();
         int intop=0;
         do {
             int intdato, intpos;
             intop=Integer.parseInt(JOptionPane.showInputDialog("Seleccione una opción a realizar\n 1. Salir \n 2. Insertar dato en la primera posición"
-                    + "\n 3. Borrar el dato en la primera posición \n 4. Borrar último dato \n 5. Borrar dato en posición especificada \n 6. Insertar entre nodos"
-                    + ""));
+                    + "\n 3. Insertar al final \n 4. Borrar el dato en la primera posición \n 5. Borrar último dato \n 6. Borrar dato en posición especificada "
+                    + "\n 7. Insertar entre nodos"
+                    + "\n 8. Vaciar lista \n 9. Esta vacía \n 10. Longitud de la lista \n 11. Buscar" ));
             switch(intop){
                 case 2: pedirDatos();
                         miLista.insertarPrincipio(new Libro(titulo,autor,isbn));
-                        JOptionPane.showMessageDialog(null, "Libros ingresados:\n"+miLista.Listar());
+                        mostrar();
                 break;
-                case 3: JOptionPane.showMessageDialog(null,"Antes: "+ miLista.Listar());
+                case 3: pedirDatos();
+                        miLista.insertarFinal(new Libro(titulo,autor,isbn));
+                        mostrar();
+                break;
+                case 4: mostrar();
                         miLista.eliminaPrincipio();
-                        JOptionPane.showMessageDialog(null,"Despues: "+ miLista.Listar());
+                        mostrar();
                 break;
-                case 4: JOptionPane.showMessageDialog(null,"Antes: "+ miLista.Listar());
+                case 5: mostrar();
                         miLista.eliminarUltimo();
-                        JOptionPane.showMessageDialog(null,"Despues: "+ miLista.Listar());
+                        mostrar();
                 break;
-                case 5: intdato=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion que desea borrar"));
-                        JOptionPane.showMessageDialog(null,"Antes: "+ miLista.Listar());
+                case 6: intdato=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion que desea borrar"));
+                        mostrar();
                         miLista.eliminarLibro(intdato);
-                        JOptionPane.showMessageDialog(null,"Despues: "+ miLista.Listar());
+                        mostrar();
                 break;
-                case 6: intpos=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion que desea insertar"));
+                case 7: intpos=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion que desea insertar"));
                         pedirDatos();
-                        JOptionPane.showMessageDialog(null,"Antes: "+ miLista.Listar());
+                        mostrar();
                         miLista.insertarDespues(intpos,new Libro(titulo,autor,isbn));
-                        JOptionPane.showMessageDialog(null,"Despues: "+ miLista.Listar());
+                        mostrar();
+                break;
+                case 8: mostrar();
+                        miLista.vaciarLista();
+                        mostrar();
+                break;
+                case 9: JOptionPane.showMessageDialog(null,"La lista esta vacía: "+ miLista.estaVacia());
+                break;
+                case 10: JOptionPane.showMessageDialog(null,"Longitud de la lista: "+ miLista.contar());
+                break;
+                case 11: intpos=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la posicion que desea buscar"));
+                         JOptionPane.showMessageDialog(null,"La posición especificada tiene dirección: "+ miLista.obtener(intpos));
                 break;
             }
         } while (intop!=1);
