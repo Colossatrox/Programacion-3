@@ -34,7 +34,7 @@ public class Pilas {
 			return null;
 		} else { //sino se crea otro nodo
 			Nodo puntero=cabeza;
-			return puntero.libro.getAutor();
+			return puntero.libro.getTitulo();
 		}
 	}
         //metodo para obtener la longitud de la pila
