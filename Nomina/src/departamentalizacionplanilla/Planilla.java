@@ -24,6 +24,7 @@ int intRandom;
      * Creates new form Planilla
      */
     public Planilla() {
+        //se iguala el vector a 0
         for (int i = 0; i < 5; i++) {
             strDep[i]="0";
         }
@@ -38,7 +39,9 @@ int intRandom;
         funMostrarTabla();
         
     }
+    //método para registrar el nombre de los empleados, datos aleatoriamente como sueldo y bonificación, así como el departamento al que pertenecen
     public void funRegistroEmpleado(){
+        //ciclo para llenar los datos de todos los empleados
         for (int i = 0; i < 10; i++) {
             strPlanilla[i][0]=JOptionPane.showInputDialog("Ingrese el nombre completo de la persona No. "+(i+1));
             strPlanilla[i][1]=String.valueOf((int)(Math.random()*7500)+2500);
@@ -48,15 +51,19 @@ int intRandom;
             strPlanilla[i][8]=String.valueOf((int)(Math.random()*5)+1);
         }
     }
+    //método para especificar si al empleado le afecta o no el IGSS
     public void funOpAfectan(){
         for (int i = 0; i < 10; i++) {
             int intafecta=0,interror;
             do {
                 interror=0;
+                //pregunta si afecta o no
                 intafecta=Integer.parseInt(JOptionPane.showInputDialog("La persona "+strPlanilla[i][0]+" paga IGSS\n 1)SI\n 2)NO"));
                 switch(intafecta){
+                    //si si afecta se calcula el IGSS
                     case 1: strPlanilla[i][4]=String.valueOf(dfformato.format(Integer.parseInt(strPlanilla[i][1])*.0483));
                         break;
+                        //si no afecta el IGSS se iguala a 0
                     case 2: strPlanilla[i][4]="0";
                         break;
                     default: JOptionPane.showMessageDialog(null, "Debe de seleccionar una opcion valida"); interror=1;
@@ -64,36 +71,46 @@ int intRandom;
             } while (interror==1);
         }
     }
+    //método para calcular todas las percepciones de todos los trabajadores
     public void funCalcPercepciones(){
         for (int i = 0; i < 10; i++) {
             strPlanilla[i][10]=String.valueOf(Integer.parseInt(strPlanilla[i][1])+Integer.parseInt(strPlanilla[i][2])+Integer.parseInt(strPlanilla[i][3]));
         }
     }
+    //método para calcular todas las deducciones de todos los trabajadores
     public void funCalcDeducciones(){
         for (int i = 0; i < 10; i++) {
             strPlanilla[i][11]=String.valueOf(Double.parseDouble(strPlanilla[i][4])+Double.parseDouble(strPlanilla[i][5])+Double.parseDouble(strPlanilla[i][6]));
         }
     }
+    //método para calcular el ISR de los trabajadores
     public void funISR(){
         for (int i = 0; i < 10; i++) {
             Double dtot1;
+            //se obtiene el valor del suelod
             dtot1=Double.parseDouble(strPlanilla[i][1]);
+            //si sueldo es menor a 2600 el ISR es igual a 0
             if (dtot1<2600) {
                 strPlanilla[i][6]="0";
+                //si es entre 2600-5000 se calcula multiplicando por el 3%
             }else if (dtot1<=5000) {
                 strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.03));
+                //si es entre 5000-10000 se calcula multiplicando por el 5%
             }else if (dtot1<=10000) {
                 strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.05));
+                //si es mayor de 10000 se calcula multiplicando por el 10%
             }else{
                 strPlanilla[i][6]=String.valueOf(dfformato.format(dtot1*.1));
             }
         }
     }
+    //método para calcular el total devengado de cada trabajador
     public void funTotalLiquido(){
         for (int i = 0; i < 10; i++) {
            strPlanilla[i][7]=String.valueOf(Integer.parseInt(strPlanilla[i][10])+Double.parseDouble(strPlanilla[i][11]));
         }
     }
+    //método para calcular el total devengado por cada departamento
     public void funTotDepartamento(){
         for (int i = 0; i < 10; i++) {
             if (Integer.parseInt(strPlanilla[i][8])==1) {
@@ -109,6 +126,7 @@ int intRandom;
             }
         }
     }
+    //método para mostrar los encabezados de la tabla y todos los datos
     public void funMostrarTabla(){
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             

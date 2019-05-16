@@ -71,13 +71,14 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Codigo que permite consultar registros en la base de datos
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from usuarios where nombre_usuario = ? and clave_usuario = ?");
             pst.setString(1, txtNombre.getText().trim());
             pst.setString(2, txtContra.getText().trim());
             
             ResultSet rs = pst.executeQuery();
-            
+            //si la contraseña y usuario son iguales a los obtenidos en la base de datos, cierra el login y muestra menu
             if(rs.next()){
                 JOptionPane.showMessageDialog(null, "Contraseña y usuario correctos");
                 Menú inf=new Menú();

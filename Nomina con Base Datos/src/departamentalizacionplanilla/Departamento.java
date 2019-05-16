@@ -22,20 +22,25 @@ public class Departamento extends javax.swing.JFrame {
      * Creates new form Ingreso_Depto
      */
     public static int intCod=0;
+    //método para dejar en blanco los textbox y combobox
     public void limpiar(){
         txtcod.setText("");
         txtdepto.setText("");
     }
+    //método para actualizar los combobox donde se hacen las búsquedas
     public void actualizarbusqueda(){
+        //quita todos los items que tiene el combo
         cmbbusqueda.removeAllItems();
         cmbbusqueda.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select nombre_depto from departamentos");
             ResultSet rs = pst.executeQuery();
-            
+            //mientras encuentre datos en la tabla y campo especificado
             boolean r=rs.next();
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbbusqueda.addItem(rs.getString("nombre_depto"));
                 r=rs.next();
             }
@@ -45,12 +50,14 @@ public class Departamento extends javax.swing.JFrame {
     }
     public Departamento() {
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from departamentos");
             ResultSet rs = pst.executeQuery();
-            
+            //mientras encuentre datos en la tabla y campo especificado
             boolean r=rs.next();
             while(r){
+                //intCod servirá para código automático por lo que se busca el más grande guardado en la base de datos
                 if (intCod< Integer.parseInt(rs.getString("codigo_depto"))) {
                     intCod=Integer.parseInt(rs.getString("codigo_depto"));
                 }
@@ -174,6 +181,7 @@ public class Departamento extends javax.swing.JFrame {
 
     private void cmboperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboperacionActionPerformed
         // TODO add your handling code here:
+        //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         if (cmboperacion.getSelectedIndex()==1) {
             limpiar();
             lblcodigo.setVisible(false);
@@ -184,6 +192,7 @@ public class Departamento extends javax.swing.JFrame {
             lblbusqueda.setVisible(false);
             cmbbusqueda.setVisible(false);
             btnaccion.setText("Agregar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==2) {
             limpiar();
             lblcodigo.setVisible(true);
@@ -194,6 +203,7 @@ public class Departamento extends javax.swing.JFrame {
             lblbusqueda.setVisible(true);
             cmbbusqueda.setVisible(true);
             btnaccion.setText("Modificar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==3) {
             limpiar();
             lblcodigo.setVisible(true);
@@ -204,6 +214,7 @@ public class Departamento extends javax.swing.JFrame {
             lblbusqueda.setVisible(true);
             cmbbusqueda.setVisible(true);
             btnaccion.setText("Eliminar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else{
             limpiar();
             lblcodigo.setVisible(false);
@@ -218,13 +229,16 @@ public class Departamento extends javax.swing.JFrame {
 
     private void cmbbusquedaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbbusquedaItemStateChanged
         // TODO add your handling code here:
+        //sirve para la búsqueda
         if (cmbbusqueda.getSelectedIndex()!=0) {
             try{
+                //Conección con la base de datos
                 Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                 PreparedStatement pst = cn.prepareStatement("select * from departamentos where nombre_depto = ?");
                 pst.setString(1,cmbbusqueda.getSelectedItem().toString());
                 ResultSet rs = pst.executeQuery();
                 if(rs.next()){
+                    //si encuentra lo especificado se muestran los valores obtenidos en pantalla
                     txtcod.setText(rs.getString("codigo_depto"));
                     txtdepto.setText(rs.getString("nombre_depto"));
                     btnaccion.setVisible(true);
@@ -236,6 +250,7 @@ public class Departamento extends javax.swing.JFrame {
                 //System.out.println("error al agregar al de busqueda");
             }
         }else{
+            //se llama el método de limpiar para dejar en blanco todo
             limpiar();
             if (cmboperacion.getSelectedIndex()!=1) {
                 btnaccion.setVisible(false);
@@ -249,11 +264,13 @@ public class Departamento extends javax.swing.JFrame {
 
     private void btnaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaccionActionPerformed
         // TODO add your handling code here:
+        //se verifica que todo este ingresado y también esté ingresado correctamente
         if (cmboperacion.getSelectedIndex()==1) {
             if (txtdepto.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe de ingresar el nombre del departamento");
             }else{
                 try{
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("insert into departamentos values(?,?)");
 
@@ -261,8 +278,11 @@ public class Departamento extends javax.swing.JFrame {
                     pst.setString(2, txtdepto.getText().trim());
                     pst.executeUpdate();
                     intCod++;
+                    //se agregan los datos ingresados a la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos ingresados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 }catch (Exception e){
                     System.out.println("error al guardar");
@@ -272,15 +292,17 @@ public class Departamento extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(this, "Está seguro de modificar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
                 try {
                     String ID = txtcod.getText().trim();
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("update departamentos set nombre_depto= ? where codigo_depto= " + ID);
 
                     pst.setString(1, txtdepto.getText().trim());
                     pst.executeUpdate();
-
+                    //se modifican los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos modificados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 } catch (Exception e) {
                     System.out.println("error al modificar");
@@ -290,14 +312,16 @@ public class Departamento extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(this, "Está seguro de eliminar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
                 try {
                     String ID = txtcod.getText().trim();
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("delete from departamentos where codigo_depto= " + ID);
 
                     pst.executeUpdate();
-
+                    //se eliminan los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos eliminados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 } catch (Exception e) {
                     System.out.println("error al eliminar");

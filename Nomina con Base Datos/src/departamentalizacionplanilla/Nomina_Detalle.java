@@ -22,6 +22,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
      * Creates new form Nomina_Detalle
      */
     public static Double dblSueldo;
+    //método para dejar en blanco los textbox y combobox
     public void limpiar(){
         txtvalor.setText("");
         cmbfn.setSelectedIndex(0);
@@ -29,16 +30,20 @@ public class Nomina_Detalle extends javax.swing.JFrame {
         cmbemp.setSelectedIndex(0);
     }
     public Nomina_Detalle() {
+        //método para actualizar los combobox donde se hacen las búsquedas
         initComponents();
         cmbfn.addItem("");
         cmbcodfn.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbfn.addItem(rs.getString("fecha_inicial_nominal")+" - "+rs.getString("fecha_final_nominal"));
                 cmbcodfn.addItem(rs.getString("codigo_nominal"));
                 r=rs.next();
@@ -49,12 +54,15 @@ public class Nomina_Detalle extends javax.swing.JFrame {
         cmbemp.addItem("");
         cmbcodemp.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from empleados");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbemp.addItem(rs.getString("nombre_emp"));
                 cmbcodemp.addItem(rs.getString("codigo_emp"));
                 r=rs.next();
@@ -65,12 +73,15 @@ public class Nomina_Detalle extends javax.swing.JFrame {
         cmbconcepto.addItem("");
         cmbcodconcepto.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from concepto");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbconcepto.addItem(rs.getString("nombre_concepto"));
                 cmbcodconcepto.addItem(rs.getString("codigo_concepto"));
                 r=rs.next();
@@ -272,6 +283,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void cmbfnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbfnActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbcodfn.setSelectedIndex(this.cmbfn.getSelectedIndex());
         }catch(Exception e){
@@ -284,6 +296,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void cmboperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboperacionActionPerformed
         // TODO add your handling code here:
+        //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         if (cmboperacion.getSelectedIndex()==1) {
             limpiar();
             txtvalor.setEnabled(true);
@@ -298,6 +311,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
             btnaccion.setVisible(false);
             btnbuscar.setVisible(false);
             btnaccion.setText("Agregar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==2) {
             limpiar();
             txtvalor.setEnabled(false);
@@ -312,6 +326,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
             btnaccion.setVisible(true);
             btnbuscar.setVisible(true);
             btnaccion.setText("Modificar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else{
             limpiar();
             txtvalor.setEnabled(true);
@@ -328,6 +343,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void btnaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaccionActionPerformed
         // TODO add your handling code here:
+        //se verifica que todo este ingresado y también esté ingresado correctamente
         if (cmboperacion.getSelectedIndex()==1) {
             if (txtvalor.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe de ingresar el el valor del concepto");
@@ -339,6 +355,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Debe de seleccionar el empleado");
             }else{
                 try{
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("insert into nomina_detalle values(?,?,?,?)");
                     pst.setString(1, String.valueOf(cmbcodfn.getSelectedItem()));
@@ -346,7 +363,9 @@ public class Nomina_Detalle extends javax.swing.JFrame {
                     pst.setString(3, String.valueOf(cmbcodconcepto.getSelectedItem()));
                     pst.setString(4, txtvalor.getText().trim());
                     pst.executeUpdate();
+                    //se agregan los datos ingresados a la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos ingresados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
                 }catch (Exception e){
                     System.out.println("le dio un error");
@@ -358,14 +377,15 @@ public class Nomina_Detalle extends javax.swing.JFrame {
                     String strCod = String.valueOf(cmbcodfn.getSelectedItem());
                     String strEmp = String.valueOf(cmbcodemp.getSelectedItem());
                     String strConcepto = String.valueOf(cmbcodconcepto.getSelectedItem());
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("update nomina_detalle set valor_nominadetalle= ? where codigo_nominal= " + strCod+" and codigo_emp="+strEmp+" and codigo_concepto="+strConcepto);
 
                     pst.setString(1, txtvalor.getText().trim());
                     pst.executeUpdate();
-
+                    //se modifican los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos modificados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
                 } catch (Exception e) {
                     System.out.println("le dio un pujaso");
@@ -381,6 +401,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void cmbcodconceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbcodconceptoActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbconcepto.setSelectedIndex(this.cmbcodconcepto.getSelectedIndex());
         }catch(Exception e){
@@ -398,6 +419,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void cmbcodfnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbcodfnActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbfn.setSelectedIndex(this.cmbcodfn.getSelectedIndex());
         }catch(Exception e){
@@ -411,6 +433,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void cmbempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbempActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbcodemp.setSelectedIndex(this.cmbemp.getSelectedIndex());
         }catch(Exception e){
@@ -441,6 +464,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void cmbcodempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbcodempActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbemp.setSelectedIndex(this.cmbcodemp.getSelectedIndex());
         }catch(Exception e){
@@ -449,10 +473,12 @@ public class Nomina_Detalle extends javax.swing.JFrame {
 
     private void cmbconceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbconceptoActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbcodconcepto.setSelectedIndex(this.cmbconcepto.getSelectedIndex());
         }catch(Exception e){
         }
+        //si se escoge la opción de agregar
         if (cmboperacion.getSelectedIndex()==1) {
             if (cmbconcepto.getSelectedIndex()!=0) {
                 lblvalor.setVisible(true);
@@ -462,9 +488,11 @@ public class Nomina_Detalle extends javax.swing.JFrame {
                 lblemp.setVisible(true);
                 cmbemp.setVisible(true);
                 btnaccion.setVisible(true);
+                //si es sueldo,IGSS, ISR se sacan los valores automáticamente
                 if (cmbconcepto.getSelectedIndex()==1 || cmbconcepto.getSelectedIndex()==4 || cmbconcepto.getSelectedIndex()==6) {
                     txtvalor.setEnabled(false);
                     try{
+                        //Conección con la base de datos
                         Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                         PreparedStatement pst = cn.prepareStatement("select sueldo_emp from empleados where codigo_emp="+String.valueOf(cmbcodemp.getSelectedItem()));
                         ResultSet rs = pst.executeQuery();
@@ -477,8 +505,10 @@ public class Nomina_Detalle extends javax.swing.JFrame {
                     }catch (Exception e){
                         System.out.println("le dio un pujaso");
                     }
+                    //si es sueldo solo se copia el sueldo ya ingresado a la BD
                     if (cmbconcepto.getSelectedIndex()==1) {
                         txtvalor.setText(String.valueOf(dblSueldo));
+                        //si es IGSS se calcula
                     }else if (cmbconcepto.getSelectedIndex()==4) {
                         txtvalor.setText(String.valueOf(dblSueldo*.0483));
                     }else{
@@ -518,6 +548,7 @@ public class Nomina_Detalle extends javax.swing.JFrame {
                     String strCod = String.valueOf(cmbcodfn.getSelectedItem());
                     String strEmp = String.valueOf(cmbcodemp.getSelectedItem());
                     String strConcepto = String.valueOf(cmbcodconcepto.getSelectedItem());
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("select * from nomina_detalle where codigo_nominal= " + strCod+" and codigo_emp="+strEmp+" and codigo_concepto="+strConcepto);
                     ResultSet rs = pst.executeQuery();

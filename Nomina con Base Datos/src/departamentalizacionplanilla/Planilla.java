@@ -33,12 +33,14 @@ public class Planilla extends javax.swing.JFrame {
         cmbfn.addItem("");
         cmbcodfn.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado");
             ResultSet rs = pst.executeQuery();
-            
+            //mientras encuentre datos en la tabla y campo especificado
             boolean r=rs.next();
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbfn.addItem(rs.getString("fecha_inicial_nominal")+" - "+rs.getString("fecha_final_nominal"));
                 cmbcodfn.addItem(rs.getString("codigo_nominal"));
                 r=rs.next();
@@ -48,12 +50,15 @@ public class Planilla extends javax.swing.JFrame {
         }
         DefaultTableModel dtm= (DefaultTableModel) dgvtabla.getModel();
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from concepto");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega columna a la tabla por cada concepto encontrado 
                 dtm.addColumn(rs.getString("nombre_concepto"));
                 intConcepto++;
                 r=rs.next();
@@ -66,11 +71,13 @@ public class Planilla extends javax.swing.JFrame {
         dgvtabla.setModel(dtm);
         DefaultTableModel dtmdep= (DefaultTableModel) dgvdep.getModel();
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from departamentos");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //se agrega columna a la tabla por cada Departamento encontrado 
             while(r){
                 Object [] filaDep={rs.getString("nombre_depto")};
                 dtmdep.addRow(filaDep);
@@ -219,6 +226,7 @@ public class Planilla extends javax.swing.JFrame {
         if (cmbfn.getSelectedIndex()!=0) {
             
            try{
+               //Conección con la base de datos
                 Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                 PreparedStatement pst = cn.prepareStatement("select empleados.codigo_depto, empleados.codigo_emp, empleados.nombre_emp, nomina_detalle.codigo_nominal, nomina_detalle.codigo_emp,nomina_encabezado.codigo_nominal,nomina_detalle.codigo_nominal, departamentos.nombre_depto from empleados,nomina_detalle, nomina_encabezado, departamentos where empleados.codigo_depto=departamentos.codigo_depto and empleados.codigo_emp=nomina_detalle.codigo_emp and nomina_detalle.codigo_nominal=nomina_encabezado.codigo_nominal and nomina_encabezado.codigo_nominal="+String.valueOf(cmbcodfn.getSelectedItem()));
                 ResultSet rs = pst.executeQuery();
@@ -233,6 +241,7 @@ public class Planilla extends javax.swing.JFrame {
                         for (int i = 1; i <= intConcepto; i++) {
                             try{
                                 intEcontrado=0;
+                                //Conección con la base de datos
                                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                                 PreparedStatement post = con.prepareStatement("SELECT * FROM nomina_detalle,concepto where nomina_detalle.codigo_concepto=concepto.codigo_concepto and nomina_detalle.codigo_nominal="+String.valueOf(cmbcodfn.getSelectedItem())+" and nomina_detalle.codigo_emp="+rs.getString("empleados.codigo_emp")+" and nomina_detalle.codigo_concepto="+ String.valueOf(i));
                                 ResultSet ress = post.executeQuery();

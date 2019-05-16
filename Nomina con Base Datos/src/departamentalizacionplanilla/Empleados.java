@@ -22,6 +22,7 @@ public class Empleados extends javax.swing.JFrame {
      * Creates new form Empleados
      */
     public static int intCod=0;
+    //método para dejar en blanco los textbox y combobox
     public void limpiar(){
         txtcod.setText("");
         txtnombre.setText("");
@@ -29,16 +30,21 @@ public class Empleados extends javax.swing.JFrame {
         cmbpuesto.setSelectedIndex(0);
         cmbdepto.setSelectedIndex(0);
     }
+    //método para actualizar los combobox donde se hacen las búsquedas
     public void actualizarbusqueda(){
+        //quita todos los items que tiene el combo
         cmbbusqueda.removeAllItems();
         cmbbusqueda.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select nombre_emp from empleados");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbbusqueda.addItem(rs.getString("nombre_emp"));
                 r=rs.next();
             }
@@ -48,12 +54,15 @@ public class Empleados extends javax.swing.JFrame {
     }
     public Empleados() {
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from empleados");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //intCod servirá para código automático por lo que se busca el más grande guardado en la base de datos
                 if (intCod< Integer.parseInt(rs.getString("codigo_emp"))) {
                     intCod=Integer.parseInt(rs.getString("codigo_emp"));
                 }
@@ -68,12 +77,15 @@ public class Empleados extends javax.swing.JFrame {
         cmbpuesto.addItem("");
         cmbcodpuesto.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from puestos");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbpuesto.addItem(rs.getString("nombre_puesto"));
                 cmbcodpuesto.addItem(rs.getString("codigo_puesto"));
                 r=rs.next();
@@ -84,12 +96,15 @@ public class Empleados extends javax.swing.JFrame {
         cmbdepto.addItem("");
         cmbcoddepto.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from departamentos");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbdepto.addItem(rs.getString("nombre_depto"));
                 cmbcoddepto.addItem(rs.getString("codigo_depto"));
                 r=rs.next();
@@ -285,6 +300,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void cmbpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbpuestoActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbcodpuesto.setSelectedIndex(this.cmbpuesto.getSelectedIndex());
         }catch(Exception e){
@@ -297,6 +313,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void cmboperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboperacionActionPerformed
         // TODO add your handling code here:
+        //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         if (cmboperacion.getSelectedIndex()==1) {
             limpiar();
             lblbusqueda.setVisible(false);
@@ -313,6 +330,7 @@ public class Empleados extends javax.swing.JFrame {
             cmbdepto.setVisible(true);
             btnaccion.setVisible(true);
             btnaccion.setText("Agregar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==2) {
             limpiar();
             lblbusqueda.setVisible(true);
@@ -329,6 +347,7 @@ public class Empleados extends javax.swing.JFrame {
             cmbdepto.setVisible(true);
             btnaccion.setVisible(false);
             btnaccion.setText("Modificar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==3) {
             limpiar();
             lblbusqueda.setVisible(true);
@@ -344,6 +363,7 @@ public class Empleados extends javax.swing.JFrame {
             cmbdepto.setVisible(true);
             btnaccion.setVisible(false);
             btnaccion.setText("Eliminar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else{
             limpiar();
             lblbusqueda.setVisible(false);
@@ -364,6 +384,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void btnaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaccionActionPerformed
         // TODO add your handling code here:
+        //se verifica que todo este ingresado y también esté ingresado correctamente
         if (cmboperacion.getSelectedIndex()==1) {
             if (txtnombre.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe de ingresar el nombre del empleado");
@@ -375,6 +396,7 @@ public class Empleados extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Debe de seleccionar el departamento");
             }else{
                 try{
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("insert into empleados values(?,?,?,?,?)");
                     pst.setString(1, String.valueOf(intCod));
@@ -384,8 +406,11 @@ public class Empleados extends javax.swing.JFrame {
                     pst.setString(5, String.valueOf(cmbcoddepto.getSelectedItem()));
                     pst.executeUpdate();
                     intCod++;
+                    //se agregan los datos ingresados a la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos ingresados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 }catch (Exception e){
                     System.out.println("le dio un error");
@@ -395,7 +420,7 @@ public class Empleados extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(this, "Está seguro de modificar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
                 try {
                     String ID = txtcod.getText().trim();
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("update empleados set nombre_emp= ?, sueldo_emp= ?, codigo_puesto= ?, codigo_depto= ? where codigo_emp= " + ID);
 
@@ -404,9 +429,11 @@ public class Empleados extends javax.swing.JFrame {
                     pst.setString(3, cmbcodpuesto.getSelectedItem().toString());
                     pst.setString(4, cmbcoddepto.getSelectedItem().toString());
                     pst.executeUpdate();
-
+                    //se modifican los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos modificados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 } catch (Exception e) {
                     System.out.println("le dio un pujaso");
@@ -416,14 +443,16 @@ public class Empleados extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(this, "Está seguro de eliminar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
                 try {
                     String ID = txtcod.getText().trim();
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("delete from empleados where codigo_emp= " + ID);
 
                     pst.executeUpdate();
-
+                    //se eliminan los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos eliminados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 } catch (Exception e) {
                     System.out.println("le dio un pujaso");
@@ -434,13 +463,16 @@ public class Empleados extends javax.swing.JFrame {
 
     private void cmbbusquedaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbbusquedaItemStateChanged
         // TODO add your handling code here:
+        //sirve para la búsqueda
         if (cmbbusqueda.getSelectedIndex()!=0) {
             try{
+                //Conección con la base de datos
                 Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                 PreparedStatement pst = cn.prepareStatement("select * from empleados where nombre_emp = ?");
                 pst.setString(1,cmbbusqueda.getSelectedItem().toString());
                 ResultSet rs = pst.executeQuery();
                 if(rs.next()){
+                    //si encuentra lo especificado se muestran los valores obtenidos en pantalla
                     txtcod.setText(rs.getString("codigo_emp"));
                     txtnombre.setText(rs.getString("nombre_emp"));
                     txtsueldo.setText(rs.getString("sueldo_emp"));
@@ -455,6 +487,7 @@ public class Empleados extends javax.swing.JFrame {
                 //System.out.println("le dio un pujaso");
             }
         }else{
+            //se llama el método de limpiar para dejar en blanco todo
             limpiar();
             if (cmboperacion.getSelectedIndex()!=1) {
                 btnaccion.setVisible(false);
@@ -473,6 +506,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void cmbcoddeptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbcoddeptoActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbdepto.setSelectedIndex(this.cmbcoddepto.getSelectedIndex());
         }catch(Exception e){
@@ -481,6 +515,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void cmbdeptoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbdeptoItemStateChanged
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbcoddepto.setSelectedIndex(this.cmbdepto.getSelectedIndex());
         }catch(Exception e){
@@ -489,6 +524,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void cmbcodpuestoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbcodpuestoItemStateChanged
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbdepto.setSelectedIndex(this.cmbcoddepto.getSelectedIndex());
         }catch(Exception e){
@@ -497,6 +533,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void cmbcodpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbcodpuestoActionPerformed
         // TODO add your handling code here:
+        //sirve para que al cambiar un combo se cambie el otro automáticamente
         try{
             this.cmbpuesto.setSelectedIndex(this.cmbcodpuesto.getSelectedIndex());
         }catch(Exception e){

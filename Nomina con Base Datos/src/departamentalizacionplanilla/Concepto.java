@@ -20,16 +20,21 @@ public class Concepto extends javax.swing.JFrame {
     /**
      * Creates new form Concepto
      */
+    //método para actualizar los combobox donde se hacen las búsquedas
     public void actualizarbusqueda(){
+        //quita todos los items que tiene el combo
         cmbbusqueda.removeAllItems();
         cmbbusqueda.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select nombre_concepto from concepto");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbbusqueda.addItem(rs.getString("nombre_concepto"));
                 r=rs.next();
             }
@@ -37,6 +42,7 @@ public class Concepto extends javax.swing.JFrame {
             System.out.println("le dio un pujaso");
         }
     }
+    //método para dejar en blanco los textbox y combobox
     public void limpiar(){
         txtcod.setText("");
         txtconcepto.setText("");
@@ -44,12 +50,14 @@ public class Concepto extends javax.swing.JFrame {
     }
     public Concepto() {
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from concepto");
             ResultSet rs = pst.executeQuery();
-            
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //intCod servirá para código automático por lo que se busca el más grande guardado en la base de datos
                 if (intCod< Integer.parseInt(rs.getString("codigo_concepto"))) {
                     intCod=Integer.parseInt(rs.getString("codigo_concepto"));
                 }
@@ -194,6 +202,7 @@ public class Concepto extends javax.swing.JFrame {
 
     private void cmboperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboperacionActionPerformed
         // TODO add your handling code here:
+        //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         if (cmboperacion.getSelectedIndex()==1) {
             limpiar();
             lblcodigo.setVisible(false);
@@ -206,6 +215,7 @@ public class Concepto extends javax.swing.JFrame {
             lblbusqueda.setVisible(false);
             cmbbusqueda.setVisible(false);
             btnaccion.setText("Agregar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==2) {
             limpiar();
             lblcodigo.setVisible(true);
@@ -218,6 +228,7 @@ public class Concepto extends javax.swing.JFrame {
             lblbusqueda.setVisible(true);
             cmbbusqueda.setVisible(true);
             btnaccion.setText("Modificar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==3) {
             limpiar();
             lblcodigo.setVisible(true);
@@ -230,6 +241,7 @@ public class Concepto extends javax.swing.JFrame {
             lblbusqueda.setVisible(true);
             cmbbusqueda.setVisible(true);
             btnaccion.setText("Eliminar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else{
             limpiar();
             lblcodigo.setVisible(false);
@@ -246,6 +258,7 @@ public class Concepto extends javax.swing.JFrame {
 
     private void btnaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaccionActionPerformed
         // TODO add your handling code here:
+        //se verifica que todo este ingresado y también esté ingresado correctamente
         if (cmboperacion.getSelectedIndex()==1) {
             if (txtconcepto.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe de ingresar el nombre del concepto");
@@ -253,6 +266,7 @@ public class Concepto extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Debe de seleccionar el efecto del concepto");
             }else{
                 try{
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("insert into concepto values(?,?,?)");
 
@@ -261,8 +275,11 @@ public class Concepto extends javax.swing.JFrame {
                     pst.setString(3, String.valueOf(cmbefecto.getSelectedItem()));
                     pst.executeUpdate();
                     intCod++;
+                    //se agregan los datos ingresados a la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos ingresados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 }catch (Exception e){
                    System.out.println("le dio un error");
@@ -272,16 +289,18 @@ public class Concepto extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(this, "Está seguro de modificar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
                try {
                     String ID = txtcod.getText().trim();
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("update concepto set nombre_concepto= ?, efecto_concepto = ? where codigo_concepto= " + ID);
 
                     pst.setString(1, txtconcepto.getText().trim());
                     pst.setString(2, cmbefecto.getSelectedItem().toString());
                     pst.executeUpdate();
-
+                    //se modifican los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos modificados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 } catch (Exception e) {
                     System.out.println("le dio un pujaso");
@@ -291,14 +310,16 @@ public class Concepto extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(this, "Está seguro de eliminar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
                try {
                     String ID = txtcod.getText().trim();
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("delete from concepto where codigo_concepto= " + ID);
 
                     pst.executeUpdate();
-
+                    //se eliminan los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos eliminados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 } catch (Exception e) {
                     System.out.println("le dio un pujaso");
@@ -309,13 +330,16 @@ public class Concepto extends javax.swing.JFrame {
 
     private void cmbbusquedaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbbusquedaItemStateChanged
         // TODO add your handling code here:
+        //sirve para la búsqueda
         if (cmbbusqueda.getSelectedIndex()!=0) {
             try{
+                //Conección con la base de datos
                 Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                 PreparedStatement pst = cn.prepareStatement("select * from concepto where nombre_concepto = ?");
                 pst.setString(1,cmbbusqueda.getSelectedItem().toString());
                 ResultSet rs = pst.executeQuery();
                 if(rs.next()){
+                    //si encuentra lo especificado se muestran los valores obtenidos en pantalla
                     txtcod.setText(rs.getString("codigo_concepto"));
                     txtconcepto.setText(rs.getString("nombre_concepto"));
                     cmbefecto.setSelectedItem(rs.getString("efecto_concepto"));
@@ -328,6 +352,7 @@ public class Concepto extends javax.swing.JFrame {
                 //System.out.println("le dio un pujaso");
             }
         }else{
+            //se llama el método de limpiar para dejar en blanco todo
             limpiar();
             btnaccion.setVisible(false);
         }

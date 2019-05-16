@@ -118,6 +118,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Usuarios inf=new Usuarios();
                 this.dispose();
                 inf.setVisible(true);
@@ -125,6 +126,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Departamento inf=new Departamento();
                 this.dispose();
                 inf.setVisible(true);
@@ -132,6 +134,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Empleados inf=new Empleados();
                 this.dispose();
                 inf.setVisible(true);
@@ -139,6 +142,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Planilla inf=new Planilla();
                 this.dispose();
                 inf.setVisible(true);
@@ -146,6 +150,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Puesto inf=new Puesto();
                 this.dispose();
                 inf.setVisible(true);
@@ -153,6 +158,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Concepto inf=new Concepto();
                 this.dispose();
                 inf.setVisible(true);
@@ -160,6 +166,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Nomina inf=new Nomina();
                 this.dispose();
                 inf.setVisible(true);
@@ -167,6 +174,7 @@ public class Menú extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        //cierra la ventana actual y abre otra
         Nomina_Detalle inf=new Nomina_Detalle();
                 this.dispose();
                 inf.setVisible(true);

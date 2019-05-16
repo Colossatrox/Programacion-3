@@ -14,11 +14,13 @@ import javax.swing.JOptionPane;
 public class Inicio {
     public static Lista miLista=new Lista();
     public static String titulo, autor, isbn;
+    //método para pedir los datos del libro
     public static void pedirDatos(){
        titulo=JOptionPane.showInputDialog("Ingrese el titulo del libro");
        autor=JOptionPane.showInputDialog("Ingrese el autor del libro");
        isbn=JOptionPane.showInputDialog("Ingrese el el isbn del libro");
     }
+    //método para mostrar los encabezados y los datos de la lista
     public static void mostrar(){
        JOptionPane.showMessageDialog(null, "Titulo                 Autor               Isbn                \n"+miLista.Listar()); 
     }
@@ -28,6 +30,7 @@ public class Inicio {
         int intop=0;
         do {
             int intdato, intpos;
+            //se muestra el menú de opciones que puede escoger
             intop=Integer.parseInt(JOptionPane.showInputDialog("Seleccione una opción a realizar\n 1. Salir \n 2. Insertar dato en la primera posición"
                     + "\n 3. Insertar al final \n 4. Borrar el dato en la primera posición \n 5. Borrar último dato \n 6. Borrar dato en posición especificada "
                     + "\n 7. Insertar entre nodos"

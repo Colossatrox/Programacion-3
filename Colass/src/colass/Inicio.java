@@ -14,11 +14,13 @@ import javax.swing.JOptionPane;
 public class Inicio {
     public static Colas miPila=new Colas();
     public static String titulo, autor, isbn;
+    //método para pedir los datos del libro
     public static void pedirDatos(){
        titulo=JOptionPane.showInputDialog("Ingrese el titulo del libro");
        autor=JOptionPane.showInputDialog("Ingrese el autor del libro");
        isbn=JOptionPane.showInputDialog("Ingrese el el isbn del libro");
     }
+    //método para mostrar los encabezados y los datos de la cola
     public static void mostrar(String Tiempo){
        JOptionPane.showMessageDialog(null,Tiempo+ "\nTitulo                 Autor               Isbn                \n"+miPila.Listar()); 
     }
@@ -27,6 +29,7 @@ public class Inicio {
         int intop=0;
         do {
             int intdato, intpos;
+            //se muestra el menú de opciones que puede escoger
             intop=Integer.parseInt(JOptionPane.showInputDialog("Seleccione una opción a realizar\n 1. Salir \n 2. Insertar dato"
                     + "\n 3. Sacar dato"
                     + "\n 4. Esta Llena \n 5. Esta vacía \n 6. Top \n 7. Listar \n 8. Vaciar Pila" ));

@@ -28,8 +28,10 @@ public class Nomina extends javax.swing.JFrame {
      * Creates new form Nomina
      */
     public static int intCod=0;
+    //método para tener los dias con 2 dígitos
     public static String strDia(int intdia){
         String strDia="";
+        //si el dia es menor o igual a 9 se agrega un 0 antes
         if (intdia<=9) {
             strDia="0"+String.valueOf(intdia);
         }else{
@@ -37,8 +39,10 @@ public class Nomina extends javax.swing.JFrame {
         }
         return strDia;
     }
+    //método para tener los meses con 2 dígitos
     public static String strMes(int intmes){
         String strMes="";
+        //si el mes es menor o igual a 9 se agrega un 0 antes
         if (intmes<9) {
             strMes="0"+String.valueOf(intmes+1);
         }else{
@@ -46,6 +50,7 @@ public class Nomina extends javax.swing.JFrame {
         }
         return strMes;
     }
+    //se toman solo las letras del subindice 1 al 3 del texto obtenido
     public static String strA(int intA){
         String strA=String.valueOf(intA).substring(1, 3);
         return strA;
@@ -53,16 +58,21 @@ public class Nomina extends javax.swing.JFrame {
     public void limpiar(){
         txtcod.setText("");
     }
+    //método para actualizar los combobox donde se hacen las búsquedas
     public void actualizarbusqueda(){
+        //quita todos los items que tiene el combo
         cmbbusqueda.removeAllItems();
         cmbbusqueda.addItem("");
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //se agrega lo encontrado al combo 
                 cmbbusqueda.addItem(rs.getString("fecha_inicial_nominal")+" - "+rs.getString("fecha_final_nominal"));
                 r=rs.next();
             }
@@ -72,12 +82,15 @@ public class Nomina extends javax.swing.JFrame {
     }
     public Nomina() {
         try{
+            //Conección con la base de datos
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
             PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado");
             ResultSet rs = pst.executeQuery();
             
             boolean r=rs.next();
+            //mientras encuentre datos en la tabla y campo especificado
             while(r){
+                //intCod servirá para código automático por lo que se busca el más grande guardado en la base de datos
                 if (intCod< Integer.parseInt(rs.getString("codigo_nominal"))) {
                     intCod=Integer.parseInt(rs.getString("codigo_nominal"));
                 }
@@ -89,6 +102,7 @@ public class Nomina extends javax.swing.JFrame {
             System.out.println("le dio un pujaso");
         }
         initComponents();
+        //se llama el método para actualizar los combobox
         actualizarbusqueda();
         lblbusqueda.setVisible(false);
         cmbbusqueda.setVisible(false);
@@ -225,6 +239,7 @@ public class Nomina extends javax.swing.JFrame {
 
     private void cmboperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboperacionActionPerformed
         // TODO add your handling code here:
+        //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         if (cmboperacion.getSelectedIndex()==1) {
             limpiar();
             lblbusqueda.setVisible(false);
@@ -237,6 +252,7 @@ public class Nomina extends javax.swing.JFrame {
             dtpff.setVisible(true);
             btnaccion.setVisible(true);
             btnaccion.setText("Agregar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else if (cmboperacion.getSelectedIndex()==2) {
             limpiar();
             lblbusqueda.setVisible(true);
@@ -249,6 +265,7 @@ public class Nomina extends javax.swing.JFrame {
             dtpff.setVisible(true);
             btnaccion.setVisible(false);
             btnaccion.setText("Modificar");
+            //se oculta lo innecesario, se muestra lo necesario y se cambia el texto al botón
         }else{
             limpiar();
             lblbusqueda.setVisible(false);
@@ -264,15 +281,19 @@ public class Nomina extends javax.swing.JFrame {
 
     private void cmbbusquedaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbbusquedaItemStateChanged
         // TODO add your handling code here:
+        //sirve para la búsqueda
         String strTexto;
+        //dar formato a la fecha
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
         if (cmbbusqueda.getSelectedIndex()!=0) {
             try{
+                //Conección con la base de datos
                 Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                 PreparedStatement pst = cn.prepareStatement("select * from nomina_encabezado where fecha_inicial_nominal = ?");
                 pst.setString(1,cmbbusqueda.getSelectedItem().toString().substring(0, 8));
                 ResultSet rs = pst.executeQuery();
                 if(rs.next()){
+                    //si encuentra lo especificado se muestran los valores obtenidos en pantalla
                     txtcod.setText(rs.getString("codigo_nominal"));
                     strTexto=rs.getString("fecha_inicial_nominal");
                     dtpfi.setDate(formatoDelTexto.parse(strTexto));
@@ -287,6 +308,7 @@ public class Nomina extends javax.swing.JFrame {
                 //System.out.println("le dio un pujaso");
             }
         }else{
+            //se llama el método de limpiar para dejar en blanco todo
             limpiar();
             if (cmboperacion.getSelectedIndex()!=1) {
                 btnaccion.setVisible(false);
@@ -301,6 +323,7 @@ public class Nomina extends javax.swing.JFrame {
 
     private void btnaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaccionActionPerformed
         // TODO add your handling code here:
+        //se verifica que todo este ingresado y también esté ingresado correctamente
         if (cmboperacion.getSelectedIndex()==1) {
             if (dtpfi.getDate().equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe de seleccionar la fecha inicial de la nomina");
@@ -308,6 +331,7 @@ public class Nomina extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Debe de seleccionar la fecha final de la nomina");
             }else{
                 try{
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("insert into nomina_encabezado values(?,?,?,?)");
                     pst.setString(1, String.valueOf(intCod));
@@ -316,8 +340,11 @@ public class Nomina extends javax.swing.JFrame {
                     pst.setString(4, "0");
                     pst.executeUpdate();
                     intCod++;
+                    //se agregan los datos ingresados a la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos ingresados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 }catch (Exception e){
                     System.out.println("le dio un error");
@@ -327,16 +354,18 @@ public class Nomina extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(this, "Está seguro de modificar los datos?","MODIFICAR",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
                 try {
                     String ID = txtcod.getText().trim();
-
+                    //Conección con la base de datos
                     Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/base_nomina", "root", "");
                     PreparedStatement pst = cn.prepareStatement("update nomina_encabezado set fecha_inicial_nominal= ?, fecha_final_nominal= ? where codigo_nominal= " + ID);
 
                     pst.setString(1, String.valueOf(strDia(dtpfi.getDate().getDate()))+"/"+String.valueOf(strMes(dtpfi.getDate().getMonth()))+"/"+String.valueOf(strA(dtpfi.getDate().getYear())));
                     pst.setString(2, String.valueOf(strDia(dtpff.getDate().getDate()))+"/"+String.valueOf(strMes(dtpff.getDate().getMonth()))+"/"+String.valueOf(strA(dtpff.getDate().getYear())));
                     pst.executeUpdate();
-
+                    //se modifican los datos especificados en la base de datos 
                     JOptionPane.showMessageDialog(this, "Datos modificados correctamente","ÉXITO",JOptionPane.INFORMATION_MESSAGE);
+                    //se llama el método de limpiar para dejar en blanco todo
                     limpiar();
+                    //se llama el método para actualizar los combobox
                     actualizarbusqueda();
                 } catch (Exception e) {
                     System.out.println("le dio un pujaso de modificacion");
