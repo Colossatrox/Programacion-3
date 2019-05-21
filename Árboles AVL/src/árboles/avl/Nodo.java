@@ -10,38 +10,38 @@ package árboles.avl;
  * @author
  */
 public class Nodo {
-    public int dato, qe;
-    public Nodo izq,der;
+    public int intDato, facequilibrio;
+    public Nodo nodoIzq,nodoDer;
 
-    public Nodo(int dato, Nodo izq, Nodo der) {
-        this.dato = dato;
-        this.izq = izq;
-        this.der = der;
-        this.qe=0;
+    public Nodo(int intDato, Nodo nodoIzq, Nodo nodoDer) {
+        this.intDato = intDato;
+        this.nodoIzq = nodoIzq;
+        this.nodoDer = nodoDer;
+        this.facequilibrio=0;
     }
 
-    public int getDato() {
-        return dato;
+    public int getIntDato() {
+        return intDato;
     }
 
-    public void setDato(int dato) {
-        this.dato = dato;
+    public void setIntDato(int intDato) {
+        this.intDato = intDato;
     }
 
-    public Nodo getIzq() {
-        return izq;
+    public Nodo getNodoIzq() {
+        return nodoIzq;
     }
 
-    public void setIzq(Nodo izq) {
-        this.izq = izq;
+    public void setNodoIzq(Nodo nodoIzq) {
+        this.nodoIzq = nodoIzq;
     }
 
-    public Nodo getDer() {
-        return der;
+    public Nodo getNodoDer() {
+        return nodoDer;
     }
 
-    public void setDer(Nodo der) {
-        this.der = der;
+    public void setNodoDer(Nodo nodoDer) {
+        this.nodoDer = nodoDer;
     }
  
 }
