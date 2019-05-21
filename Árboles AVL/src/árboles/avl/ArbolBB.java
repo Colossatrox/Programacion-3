@@ -111,44 +111,66 @@ public class ArbolBB {
             }
             //si el dato del nodo nuevo es menor al dato del nodo actual
          }else if(nuevo.intDato>actual.intDato){
+             //si el nodo actual no tiene parte derecha entonces se inserta el nodo
+             //nuevo en la parte derecha del nodo actual
             if(actual.nodoDer==null){
                 actual.nodoDer=nuevo;
+            //sino
             }else{
+                //la parte derecha del nodo actual se iguala al resultado de llamar el método de insertarAVL
+                //mandando como parámetro el valor nuevo y la parte derecha del nodo actual
                 actual.nodoDer=insertAVL(nuevo,actual.nodoDer);
+                //si el factor de equilibrio de el lado derecho con el izquierdo es igual a 2
                 if(obtenerfe(actual.nodoDer)-obtenerfe(actual.nodoIzq)==2){
+                    //si el dato del nodo nuevo es mayor al dato de la parte derecha del nodo actual
                     if(nuevo.intDato>actual.nodoDer.intDato){
+                        //auxiliar se iguala al resutltado de enviar el nodo actual en el método de rotación de derecha
                         auxiliar=rotacionDer(actual);
                     }else{
+                        //auxiliar se iguala al resutltado de enviar el nodo actual en el método de rotación doble de derecha
                         auxiliar=rotacionDobleDer(actual);
                     }
                 }
             }
+            //de lo contrario se muestra de que no se pueden colocar nodos duplicados
          }else{
             System.out.println("Nodo duplicado, no se puede colocar nodos duplicados");
          }
          //actualizando altura
+         //si la parte izquierda del nodo actual está vacía y la parte derecha del nodo actual no está vacía
          if((actual.nodoIzq==null)&&(actual.nodoDer!=null)){
+             //el factor de equilibrio es igual al factor de equilibrio de la parte derecha del nodo actual +1
             actual.facequilibrio=actual.nodoDer.facequilibrio+1;
+        //si la parte derecha del nodo actual está vacía y la parte izquierda del nodo actual no está vacía
          }else if((actual.nodoDer==null)&&(actual.nodoIzq!=null)){
+             //el factor de equilibrio es igual al factor de equilibrio de la parte izquierda del nodo actual +1
             actual.facequilibrio=actual.nodoIzq.facequilibrio+1;         
          }else{
+             //el factor de equilibrio es igual valor máximo del valor de equilibrio entre la parte izquierda y la parte derecha
             actual.facequilibrio=Math.max(obtenerfe(actual.nodoIzq),obtenerfe(actual.nodoDer))+1;         
          }
+         //devuleve auxiliar
          return auxiliar;
     }
     public boolean insertar(int d){
         Nodo nuevo= new Nodo(d,null,null);
+        //si la raiz esta vacía
         if(nodoRaiz==null){
+            //se ingresa el nodo nuevo en la raíz
             nodoRaiz=nuevo;
         }else{
+            //sino en la raiz se inserta lo obtenido de llamar el método de insertarAVL mandando como parámetro el 
+            //valor nuevo y la raiz
             nodoRaiz=insertAVL(nuevo,nodoRaiz);
         }
+        //devuelve verdadero
         return true;
     }
+    //método para obtener la raíz del arbol
     public Nodo getNodoRaiz() {
         return nodoRaiz;
     } 
-
+    //método para cambiar la raíz
     public void setNodoRaiz(Nodo nodoRaiz) {
         this.nodoRaiz = nodoRaiz;
     }
