@@ -30,20 +30,19 @@ public class ArbolBB {
             return r.facequilibrio;
         } 
     }
-    //método para rotar el nodo a la izquierda
-    public Nodo rotacionIzq(Nodo r){
-        //se hace un nodo auxiliar que se iguala al nodo izquierdo
-        Nodo aux= r.nodoIzq;
-        //nodo izquierdo se iguala a la parte derecha del nodo auxiliar
-        r.nodoIzq=aux.nodoDer;
-        //la parte derecha del nodo auxiliar se iguala al nodo mandado al método
-        aux.nodoDer=r;
-        //se saca el factor de equilibrio máximo del nodo r entre la parte derecha e izquierda
-        r.facequilibrio=Math.max(obtenerfe(r.nodoIzq), obtenerfe(r.nodoDer))+1;
-        //se saca el factor de equilibrio máximo del nodo auxiliar entre la parte derecha e izquierda
-        aux.facequilibrio=Math.max(obtenerfe(aux.nodoIzq),obtenerfe(aux.nodoDer))+1;
-        //devuelve auxiliar
-        return aux;
+    public boolean insertar(int d){
+        Nodo nuevo= new Nodo(d,null,null);
+        //si la raiz esta vacía
+        if(nodoRaiz==null){
+            //se ingresa el nodo nuevo en la raíz
+            nodoRaiz=nuevo;
+        }else{
+            //sino en la raiz se inserta lo obtenido de llamar el método de insertarAVL mandando como parámetro el 
+            //valor nuevo y la raiz
+            nodoRaiz=insertAVL(nuevo,nodoRaiz);
+        }
+        //devuelve verdadero
+        return true;
     }
     //método para rotar el nodo a la izquierda
     public Nodo rotacionDer(Nodo r){
@@ -60,6 +59,25 @@ public class ArbolBB {
         //devuelve auxiliar
         return aux;
     }
+    //método para rotar el nodo a la izquierda
+    public Nodo rotacionIzq(Nodo r){
+        //se hace un nodo auxiliar que se iguala al nodo izquierdo
+        Nodo aux= r.nodoIzq;
+        //nodo izquierdo se iguala a la parte derecha del nodo auxiliar
+        r.nodoIzq=aux.nodoDer;
+        //la parte derecha del nodo auxiliar se iguala al nodo mandado al método
+        aux.nodoDer=r;
+        //se saca el factor de equilibrio máximo del nodo r entre la parte derecha e izquierda
+        r.facequilibrio=Math.max(obtenerfe(r.nodoIzq), obtenerfe(r.nodoDer))+1;
+        //se saca el factor de equilibrio máximo del nodo auxiliar entre la parte derecha e izquierda
+        aux.facequilibrio=Math.max(obtenerfe(aux.nodoIzq),obtenerfe(aux.nodoDer))+1;
+        //devuelve auxiliar
+        return aux;
+    }
+    //método para cambiar la raíz
+    public void setNodoRaiz(Nodo nodoRaiz) {
+        this.nodoRaiz = nodoRaiz;
+    }
     //método para rotar doblemente el nodo a la izquierda
     public Nodo rotacionDobleIzq(Nodo r){
         //se crea nodo auxiliar
@@ -72,6 +90,23 @@ public class ArbolBB {
         //devuelve auxiliar
         return aux;
     }
+    //método que crea la lista del recorrido
+    public LinkedList preOrden() {
+        LinkedList rec = new LinkedList();
+        preorden(nodoRaiz, rec);
+        //devuelve el recorrido
+        return rec;
+    }
+    //Recorrido preorden, recibe el nodo a empezar (nodoRaiz) y una linkedlist para ir guardando el recorrido
+    public void preorden(Nodo aux, LinkedList recorrido) {
+        //si aux no está vacío
+        if (aux != null) {
+            //se agrega a recorrido el dato de auxiliar
+            recorrido.add(aux.getIntDato());
+            preorden(aux.getNodoIzq(), recorrido);
+            preorden(aux.getNodoDer(), recorrido);
+        }
+    }
     public Nodo rotacionDobleDer(Nodo r){
         //se crea nodo auxiliar
         Nodo aux;
@@ -82,6 +117,14 @@ public class ArbolBB {
         aux=rotacionDer(r);
         //devuelve auxiliar
         return aux;
+    }
+    //método para obtener la raíz del arbol
+    public Nodo getNodoRaiz() {
+        return nodoRaiz;
+    }
+    //método para obtener el dibujo del árbol
+     public JPanel getdibujo() {
+        return new ArbolExpresionGrafico(this);
     }
     public Nodo insertAVL(Nodo nuevo, Nodo actual){
         //se crea nodo auxiliar y se iguala a 
@@ -152,65 +195,14 @@ public class ArbolBB {
          //devuleve auxiliar
          return auxiliar;
     }
-    public boolean insertar(int d){
-        Nodo nuevo= new Nodo(d,null,null);
-        //si la raiz esta vacía
-        if(nodoRaiz==null){
-            //se ingresa el nodo nuevo en la raíz
-            nodoRaiz=nuevo;
-        }else{
-            //sino en la raiz se inserta lo obtenido de llamar el método de insertarAVL mandando como parámetro el 
-            //valor nuevo y la raiz
-            nodoRaiz=insertAVL(nuevo,nodoRaiz);
-        }
-        //devuelve verdadero
-        return true;
-    }
-    //método para obtener la raíz del arbol
-    public Nodo getNodoRaiz() {
-        return nodoRaiz;
-    } 
-    //método para cambiar la raíz
-    public void setNodoRaiz(Nodo nodoRaiz) {
-        this.nodoRaiz = nodoRaiz;
-    }
-
-    //Recorrido preorden, recibe el nodo a empezar (nodoRaiz) y una linkedlist para ir guardando el recorrido
-    public LinkedList preOrden() {
-        LinkedList rec = new LinkedList();
-        preorden(nodoRaiz, rec);
-        return rec;
-    }
-    
-    public void preorden(Nodo aux, LinkedList recorrido) {
-        if (aux != null) {
-            recorrido.add(aux.getIntDato());
-            preorden(aux.getNodoIzq(), recorrido);
-            preorden(aux.getNodoDer(), recorrido);
-        }
-    }
-
-    //Recorrido inorden, recibe el nodo a empezar (nodoRaiz) y una linkedlist para ir guardando el recorrido
-    public LinkedList inOrden() {
-        LinkedList rec = new LinkedList();
-        inorden(nodoRaiz, rec);
-        return rec;
-    }
-    
-    public void inorden(Nodo aux, LinkedList recorrido) {
-        if (aux != null) {
-            inorden(aux.getNodoIzq(), recorrido);
-            recorrido.add(aux.getIntDato());
-            inorden(aux.getNodoDer(), recorrido);
-        }
-    }
-
-    //Recorrido postorden, recibe el nodo a empezar (nodoRaiz) y una linkedlist para ir guardando el recorrido
+    //método que crea la lista del recorrido
     public LinkedList postOrden() {
         LinkedList rec = new LinkedList();
         postorden(nodoRaiz, rec);
+        //devuelve el recorrido
         return rec;
     }
+    //Recorrido postorden, recibe el nodo a empezar (nodoRaiz) y una linkedlist para ir guardando el recorrido
     public void postorden(Nodo aux, LinkedList recorrido) {
         if (aux != null) {
             postorden(aux.getNodoIzq(), recorrido);
@@ -218,23 +210,40 @@ public class ArbolBB {
             recorrido.add(aux.getIntDato());
         }
     }
-
+    //método que crea la lista del recorrido
+    public LinkedList inOrden() {
+        LinkedList rec = new LinkedList();
+        inorden(nodoRaiz, rec);
+        //devuelve el recorrido
+        return rec;
+    }
+    //Recorrido inorden, recibe el nodo a empezar (nodoRaiz) y una linkedlist para ir guardando el recorrido
+    public void inorden(Nodo aux, LinkedList recorrido) {
+        if (aux != null) {
+            inorden(aux.getNodoIzq(), recorrido);
+            recorrido.add(aux.getIntDato());
+            inorden(aux.getNodoDer(), recorrido);
+        }
+    }
     //Metodo para verificar si hay un nodo en el arbol
     public boolean existe(int dato) {
         Nodo aux = nodoRaiz;
+        //mientras auxiliar no esté vacío
         while (aux != null) {
+            //si dato es igual al dato que contiene auxiliar
             if (dato == aux.getIntDato()) {
+                //devuelve encontrado
                 return true;
+            //sino si dato es mayor al dato que contiene auxiliar
             } else if (dato > aux.getIntDato()) {
+                //auxiliar es igual al nodo derecho
                 aux = aux.getNodoDer();
             } else {
+                //auxiliar es igual al nodo izquierdo
                 aux = aux.getNodoIzq();
             }
         }
+        //devuelve no encontrado
         return false;
-    }
-
-     public JPanel getdibujo() {
-        return new ArbolExpresionGrafico(this);
     }
 }

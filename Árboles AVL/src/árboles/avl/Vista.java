@@ -26,7 +26,7 @@ public class Vista extends javax.swing.JFrame {
         initComponents();
         this.inicializar(false);
     }
-
+    //método para activar todos los métodos de recorrido a utilizar
     private void inicializar(boolean enable) {
         this.InOrden.setEnabled(enable);
         this.PostOrden.setEnabled(enable);
@@ -191,7 +191,8 @@ public class Vista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInsertarActionPerformed
-            if (this.AVL.insertar(Integer.parseInt(txtdato.getText()))) {                
+        //inserta en el arbol el dato ingresado en el textbox    
+        if (this.AVL.insertar(Integer.parseInt(txtdato.getText()))) {                
                 this.inicializar(true);             
                 complementos();
         }
@@ -200,33 +201,40 @@ public class Vista extends javax.swing.JFrame {
     private void InOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InOrdenActionPerformed
         // TODO add your handling code here:
         String recorrido = null;
+        //guarda el recorrido obtenido del método inorden
         recorrido = this.AVL.inOrden();
-        
+        //limpia el textbox de recorrido
         this.impresion.setText("");
+        //muestra en el textbox el recorrido
         this.impresion.setText(recorrido);
     }//GEN-LAST:event_InOrdenActionPerformed
 
     private void PreOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreOrdenActionPerformed
         // TODO add your handling code here:
         String recorrido = null;
+        //guarda el recorrido obtenido del método preorden
         recorrido = this.AVL.preOrden();
-        
+        //limpia el textbox de recorrido
         this.impresion.setText("");
+        //muestra en el textbox el recorrido
         this.impresion.setText(recorrido);
     }//GEN-LAST:event_PreOrdenActionPerformed
 
     private void PostOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PostOrdenActionPerformed
         // TODO add your handling code here:
         String recorrido = null;
+        //guarda el recorrido obtenido del método postorden
         recorrido = this.AVL.postOrden();
-        
+        //limpia el textbox de recorrido
         this.impresion.setText("");
+        //muestra en el textbox el recorrido
         this.impresion.setText(recorrido);
     }//GEN-LAST:event_PostOrdenActionPerformed
-
+    //actualiza el árbol dibujado
     public void complementos(){
         this.repintarArbol();
     }
+    //método para volver a dibujar todo el árbol 
     private void repintarArbol() {
         this.jDesktopPane1.removeAll();
         Rectangle tamaño = this.jInternalFrame2.getBounds();

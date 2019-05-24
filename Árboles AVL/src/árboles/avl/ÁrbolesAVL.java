@@ -20,21 +20,21 @@ public class ÁrbolesAVL {
     ArbolBB miArbol = new ArbolBB();
     public ÁrbolesAVL() {
     }
-
+    
     public boolean insertar(Integer dato) {
         return (this.miArbol.insertar(dato));
     }
-    //metodo para mostrar los recorridos del arbol
+    //metodo para obtener el recorrido preorden del arbol
     public String preOrden() {
         LinkedList it = this.miArbol.preOrden();
         return (recorrido(it, "Recorrido PreOrden"));
     }
-
+    //metodo para obtener el recorrido inorden del arbol
     public String inOrden() {
         LinkedList it = this.miArbol.inOrden();
         return (recorrido(it, "Recorrido InOrden"));
     }
-
+    //metodo para obtener el recorrido postorden del arbol
     public String postOrden() {
         LinkedList it = this.miArbol.postOrden();
         return (recorrido(it, "Recorrido PosOrden"));
@@ -48,6 +48,7 @@ public class ÁrbolesAVL {
             r += "\t" + it.get(i).toString() + "";
             i++;
         }
+        //devuelve el recorrido
         return (r);
     }
     
@@ -57,9 +58,10 @@ public class ÁrbolesAVL {
         boolean siEsta = this.miArbol.existe(dato);
         String r = "El dato:" + dato.toString() + "\n";
         r += siEsta ? "Si se encuentra en el arbol" : "No se encuentra en el arbol";
+        //devuelve lo encontrado
         return (r);
     }
-
+    //método para obtener el dibujo del arbol
     public JPanel getDibujo() {
         return this.miArbol.getdibujo();
     }

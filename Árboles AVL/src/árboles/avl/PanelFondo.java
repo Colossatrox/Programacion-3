@@ -13,6 +13,7 @@ public class PanelFondo extends javax.swing.JPanel {
 
     public PanelFondo() {
         initComponents();
+        //inicializa las dimensiones del panel
         this.setSize(933, 690);
         this.ruta = "";
 
@@ -20,10 +21,13 @@ public class PanelFondo extends javax.swing.JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        //obtiene las medidas
         Dimension tam = getSize();
+        //guarda la imagen de fondo al panel
         ImageIcon ImagenFondo = new ImageIcon(new ImageIcon(getClass().getResource(ruta)).getImage());
         g.drawImage(ImagenFondo.getImage(), 0, 0, tam.width, tam.height, null);
         setOpaque(false);
+        //pone la imagen guardada en el panel
         super.paintComponent(g);
     }
 
